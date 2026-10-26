@@ -452,6 +452,167 @@ body.m-open .hub-head{opacity:0;pointer-events:none}
   .sheet{left:auto;width:min(380px,60vw)}
 }
 
+
+/* ---------- Icons ---------- */
+.ico{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+
+/* ---------- Tab bar: sliding pill ---------- */
+#tabbar button[aria-current="page"]::before{display:none}
+.tab-ind{position:absolute;top:7px;left:6px;width:calc((100% - 12px) / 5);height:calc(var(--tabh) - 14px);border-radius:16px;background:rgba(245,245,242,.08);border:1px solid rgba(245,245,242,.1);transform:translateX(calc(var(--ti,0) * 100%));transition:transform .5s cubic-bezier(.3,1.35,.4,1);pointer-events:none}
+#tabbar button[aria-current="page"] svg{animation:pop .5s cubic-bezier(.3,1.6,.4,1)}
+@keyframes pop{0%{transform:scale(.7)}100%{transform:scale(1)}}
+
+/* ---------- Spring entrances ---------- */
+.sheet:not([hidden]){animation:sheetUp .5s cubic-bezier(.2,1.15,.3,1) both}
+.dossier:not([hidden]){animation:dosIn .45s var(--ease) both}
+.editor:not([hidden]){animation:sheetUp .5s cubic-bezier(.2,1.1,.3,1) both}
+.modal:not([hidden]) figure{animation:zoomIn .5s cubic-bezier(.2,1.2,.3,1) both}
+@keyframes sheetUp{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+@keyframes dosIn{from{opacity:0;transform:scale(1.03)}to{opacity:1;transform:none}}
+@keyframes zoomIn{from{transform:scale(.9) rotate(-2deg);opacity:0}to{transform:none;opacity:1}}
+.dos-body.swap>*{animation:fadeUp .45s var(--ease) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.btn:active,.chip:active,.tl-card summary:active,.nextcard:active,.ed-add:active{transform:scale(.97)}
+
+/* ---------- Plan hero ---------- */
+.dos-head h2{display:flex;align-items:baseline;gap:.25em}
+.dos-head h2 span{color:var(--amber)}
+.edit-pill{margin-left:auto;margin-right:10px;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,184,107,.5);background:rgba(255,184,107,.1);color:var(--amber);font:700 11px/1 var(--f-head);letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
+.hero{position:relative;overflow:hidden;margin:0 0 12px;padding:16px 16px 0;border-radius:24px;border:1px solid var(--hair);background:linear-gradient(150deg,#1b1f27 0%,#0d0f13 70%)}
+.hero-glow{position:absolute;inset:-40%;background:radial-gradient(30% 30% at 25% 30%,rgba(255,77,77,.35),transparent 70%),radial-gradient(28% 28% at 75% 60%,rgba(62,140,203,.35),transparent 70%),radial-gradient(20% 20% at 60% 20%,rgba(255,184,107,.25),transparent 70%);animation:aurora 16s ease-in-out infinite alternate;pointer-events:none}
+@keyframes aurora{0%{transform:translate(0,0) rotate(0)}50%{transform:translate(6%,-4%) rotate(20deg)}100%{transform:translate(-5%,5%) rotate(-10deg)}}
+.hero>*{position:relative}
+.hero-row{display:flex;justify-content:space-between;gap:10px}
+.hero-k{font:600 10.5px/1 var(--f-head);letter-spacing:.24em;text-transform:uppercase;color:var(--mute)}
+.hero-h{margin:10px 0 4px;font:900 clamp(56px,17vw,96px)/.82 var(--f-cond);letter-spacing:-.005em;text-transform:uppercase}
+.hero-h span{display:block;color:transparent;-webkit-text-stroke:1.5px var(--paper)}
+.hero-route{position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:end;gap:8px;margin:8px 0 2px;font:800 20px/1 var(--f-cond);letter-spacing:.06em}
+.hero-route svg{width:100%;height:40px}
+.hero-plane{position:absolute;left:46px;right:46px;top:-2px;height:44px;pointer-events:none}
+.hero-plane svg{position:absolute;width:22px;height:22px;fill:var(--amber);stroke:none;offset-path:path('M0 40 Q 50 -12 100 40');offset-rotate:auto;animation:fly 5s ease-in-out infinite}
+@supports not (offset-path:path('M0 0')){.hero-plane svg{left:50%;top:0}}
+@keyframes fly{0%{offset-distance:0%;opacity:0}10%{opacity:1}90%{opacity:1}100%{offset-distance:100%;opacity:0}}
+.hero-next{margin:12px 0 0;font:500 13.5px/1.4 var(--f-head);color:var(--mute)}
+.hero-next b{display:block;font:800 26px/1 var(--f-cond);letter-spacing:.03em;text-transform:uppercase;color:var(--paper)}
+.hero-next small{display:block;margin-top:4px;font-size:11.5px;color:var(--amber)}
+.cd{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:12px 0 0}
+.cd div{padding:9px 4px 7px;border-radius:12px;background:rgba(245,245,242,.07);text-align:center}
+.cd b{display:block;font:900 30px/1 var(--f-cond);font-variant-numeric:tabular-nums}
+.cd b.flip{animation:flip .45s var(--ease)}
+@keyframes flip{from{transform:translateY(-40%);opacity:.2}to{transform:none;opacity:1}}
+.cd small,.stats small{display:block;margin-top:3px;font:600 9px/1 var(--f-head);letter-spacing:.2em;text-transform:uppercase;color:var(--steel)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:14px 0 0;padding:12px 0;border-top:1px solid var(--hair)}
+.stats div{text-align:center}
+.stats b{display:block;font:900 26px/1 var(--f-cond);font-variant-numeric:tabular-nums}
+.ticker{margin:0 -16px;padding:9px 0;overflow:hidden;white-space:nowrap;background:var(--coral);color:var(--night);font:800 14px/1 var(--f-cond);letter-spacing:.1em}
+.ticker div{display:inline-block;animation:marquee 26s linear infinite}
+@keyframes marquee{to{transform:translateX(-50%)}}
+.nextcard{display:grid;grid-template-columns:auto 1fr auto;align-items:center}
+.nc-ico{width:34px;height:34px;padding:7px;border-radius:12px;background:rgba(255,184,107,.16);color:var(--amber)}
+
+/* ---------- Day bar ---------- */
+.daybar{position:sticky;top:0;z-index:3;display:grid;grid-template-columns:repeat(var(--n),1fr);margin:0 0 12px;padding:4px;border-radius:16px;background:rgba(18,20,26,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid var(--hair)}
+.daybar i{position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px) / var(--n));border-radius:12px;background:var(--paper);transform:translateX(calc(var(--k) * 100%));transition:transform .5s cubic-bezier(.3,1.3,.4,1)}
+.daybar button{position:relative;min-height:40px;border:0;background:none;cursor:pointer;font:700 12px/1 var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);transition:color .3s}
+.daybar button[aria-selected="true"]{color:var(--night)}
+.daybar button:not([data-day="all"])::after{content:"";position:absolute;left:50%;bottom:5px;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--dc)}
+
+/* ---------- Timeline ---------- */
+.tl-wrap{margin:0 0 8px}
+.tl-day{display:flex;align-items:baseline;gap:10px;margin:18px 0 12px;font:900 34px/1 var(--f-cond);text-transform:uppercase;letter-spacing:.01em}
+.tl-day span{background:linear-gradient(90deg,var(--paper),var(--dc));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tl-day small{font:600 11px/1 var(--f-head);letter-spacing:.2em;color:var(--steel)}
+.tl{position:relative;margin:0;padding:0;list-style:none}
+.tl::before{content:"";position:absolute;left:67px;top:10px;bottom:18px;width:2px;border-radius:2px;background:linear-gradient(var(--dc),rgba(245,245,242,.08));transform-origin:top;animation:draw 1s var(--ease) both}
+@keyframes draw{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.tl-item{display:grid;grid-template-columns:44px 36px minmax(0,1fr);column-gap:8px;align-items:start;margin:0 0 10px;animation:tlIn .6s var(--ease) both;animation-delay:calc(var(--i) * 55ms + 120ms)}
+@keyframes tlIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+.tl-time{padding-top:17px;text-align:right;font:800 17px/1 var(--f-cond);letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.tl-time.notime{font:600 10px/1 var(--f-head);letter-spacing:.16em;color:var(--steel);padding-top:20px}
+.tl-node{position:relative;z-index:1;width:36px;height:36px;margin-top:7px;border-radius:50%;display:grid;place-items:center;background:var(--night);border:1.5px solid var(--c);color:var(--c);box-shadow:0 0 0 4px rgba(6,7,9,.94)}
+.tl-node .ico{width:17px;height:17px}
+.tl-node::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:1px solid var(--c);opacity:0;animation:ping 2.8s ease-out infinite;animation-delay:calc(var(--i) * 300ms)}
+@keyframes ping{0%{opacity:.6;transform:scale(.8)}70%,100%{opacity:0;transform:scale(1.35)}}
+.tl-card{min-width:0;border-radius:18px;border:1px solid var(--hair);background:linear-gradient(160deg,rgba(245,245,242,.06),rgba(245,245,242,.02));transition:border-color .3s,background .3s}
+.tl-card[open]{border-color:var(--c);background:linear-gradient(160deg,rgba(245,245,242,.09),rgba(245,245,242,.03))}
+.tl-card summary{display:flex;flex-direction:column;gap:3px;padding:12px 14px;cursor:pointer;list-style:none;transition:transform .2s}
+.tl-card summary::-webkit-details-marker{display:none}
+.tl-t{font:800 21px/1.05 var(--f-cond);letter-spacing:.02em;text-transform:uppercase}
+.tl-m{font:500 12.5px/1.35 var(--f-head);color:var(--mute)}
+.tl-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px}
+.tl-tags .status{padding:4px 8px;font-size:9.5px}
+.flag{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;background:rgba(255,77,77,.14);color:#ff8a8a;font:700 9.5px/1 var(--f-head);letter-spacing:.12em;text-transform:uppercase}
+.tl-body{padding:0 14px 14px;animation:fadeUp .4s var(--ease) both}
+
+/* ---------- Map: day filter + strip ---------- */
+.hub-foot{display:flex;flex-direction:column;gap:8px;min-width:0}
+.dayfilter{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.dayfilter button{flex:0 0 auto;display:flex;align-items:center;gap:7px;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--hair);background:rgba(8,9,12,.6);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);cursor:pointer;font:700 11px/1 var(--f-head);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);transition:all .3s}
+.dayfilter button::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--dc)}
+.dayfilter button[aria-selected="true"]{background:var(--paper);color:var(--night);border-color:var(--paper)}
+.chip{animation:chipIn .5s var(--ease) both;animation-delay:calc(var(--i,0) * 40ms);border-top:2px solid var(--dc,var(--hair))}
+@keyframes chipIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.chip .n{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:rgba(245,245,242,.07);color:var(--c)}
+.chip .n .ico{width:18px;height:18px}
+.chip .t{font-size:16px}
+.mk .n{display:grid;place-items:center}
+.mk .n .ico{width:16px;height:16px;color:var(--c)}
+.mk.filt{opacity:0!important;pointer-events:none}
+.mp-code{display:flex;align-items:center;gap:10px;font:600 11px/1 var(--f-head)!important;letter-spacing:.18em!important;text-transform:uppercase;color:var(--steel)!important}
+.mp-ico{width:44px;height:44px;padding:10px;border-radius:14px;background:rgba(245,245,242,.07);color:var(--c)}
+
+/* ---------- Squad motion ---------- */
+.agent{animation:fadeUp .6s var(--ease) both}
+.roster .agent:nth-child(2){animation-delay:.08s}.roster .agent:nth-child(3){animation-delay:.16s}.roster .agent:nth-child(4){animation-delay:.24s}.roster .agent:nth-child(n+5){animation-delay:.32s}
+.agent.groom{overflow:hidden}
+.agent.groom::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,184,107,.25) 50%,transparent 65%);transform:translateX(-100%);animation:sheen 4.5s ease-in-out infinite 1s;pointer-events:none}
+@keyframes sheen{0%,60%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+
+/* ---------- Editor ---------- */
+.editor{position:fixed;inset:0;z-index:62;display:flex;flex-direction:column;background:var(--char);padding-top:env(safe-area-inset-top,0px)}
+.ed-head{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--hair)}
+.ed-link{min-height:44px;padding:0 6px;border:0;background:none;cursor:pointer;font:600 15px/1 var(--f-body);color:var(--mute)}
+.ed-title{text-align:center;min-width:0}
+.ed-title h2{margin:0;font-size:24px}
+.ed-title small{display:block;font:600 10px/1.2 var(--f-head);letter-spacing:.18em;text-transform:uppercase;color:var(--amber)}
+.ed-save{min-height:40px!important;padding:0 18px}
+.ed-tabs{display:flex;gap:6px;overflow-x:auto;padding:10px 12px;scrollbar-width:none;border-bottom:1px solid var(--hair)}
+.ed-tabs button{flex:0 0 auto;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--hair);background:none;cursor:pointer;font:600 12px/1 var(--f-head);color:var(--mute)}
+.ed-tabs button[aria-current="page"]{background:var(--paper);color:var(--night);border-color:var(--paper)}
+.ed-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 12px calc(env(safe-area-inset-bottom,0px) + 40px)}
+.ed-day{margin:0 0 22px}
+.ed-day>h3{display:flex;align-items:baseline;gap:10px;margin:0 0 10px;font:900 28px/1 var(--f-cond);text-transform:uppercase;color:var(--dc)}
+.ed-day>h3 small{font:600 10.5px/1 var(--f-head);letter-spacing:.18em;color:var(--steel)}
+.ed-item{margin:0 0 8px;border-radius:16px;border:1px solid var(--hair);background:rgba(245,245,242,.035);animation:fadeUp .35s var(--ease) both}
+.ed-item[open]{border-color:var(--hair-2)}
+.ed-item summary{display:flex;align-items:center;gap:12px;min-height:58px;padding:8px 14px;cursor:pointer;list-style:none}
+.ed-item summary::-webkit-details-marker{display:none}
+.ed-it{flex:1;min-width:0}
+.ed-it b{display:block;font:800 18px/1.1 var(--f-cond);text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ed-it small{font-size:12px;color:var(--mute)}
+.ed-item>.ed-grid{padding:4px 14px 6px}
+.ed-grid{display:grid;grid-template-columns:1fr;gap:10px}
+@media (min-width:600px){.ed-grid{grid-template-columns:1fr 1fr}}
+.ed-g{margin:0 0 14px;padding:14px;border-radius:16px;border:1px solid var(--hair);background:rgba(245,245,242,.03)}
+.ed-g h3{margin:0 0 10px;font:800 20px/1 var(--f-cond);text-transform:uppercase;letter-spacing:.03em}
+.f{display:flex;flex-direction:column;gap:5px;min-width:0}
+.f>span{font:600 10.5px/1.2 var(--f-head);letter-spacing:.16em;text-transform:uppercase;color:var(--steel)}
+.f input,.f select,.f textarea{width:100%;min-height:46px;padding:11px 12px;border-radius:12px;border:1px solid var(--hair-2);background:#0b0d11;color:var(--paper);font:16px/1.35 var(--f-body)}
+.f textarea{resize:vertical}
+.f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--amber);box-shadow:0 0 0 3px rgba(255,184,107,.18)}
+.fc{flex-direction:row;align-items:center;gap:10px;min-height:46px}
+.fc input{width:22px;min-height:22px;height:22px;accent-color:var(--coral)}
+.fc>span{font:500 14px/1.3 var(--f-body);letter-spacing:0;text-transform:none;color:var(--paper)}
+.ed-tools{display:flex;flex-wrap:wrap;gap:6px;padding:8px 14px 14px}
+.ed-g+.ed-tools{margin:-8px 0 14px;padding:0}
+.ed-tools button{min-height:36px;min-width:40px;padding:0 12px;border-radius:10px;border:1px solid var(--hair);background:none;cursor:pointer;font:600 12px/1 var(--f-head);color:var(--mute)}
+.ed-tools .del{margin-left:auto;color:var(--coral);border-color:rgba(255,77,77,.4)}
+.ed-add{width:100%;min-height:50px;border-radius:14px;border:1.5px dashed var(--hair-2);background:none;cursor:pointer;font:700 12px/1 var(--f-head);letter-spacing:.14em;text-transform:uppercase;color:var(--paper);margin:0 0 14px}
+@media (min-width:900px){.editor{left:auto;width:560px;border-left:1px solid var(--hair)}}
+
+@media (prefers-reduced-motion:reduce){.ticker div,.hero-glow,.hero-plane svg,.tl-node::after,.agent.groom::after{animation:none!important}}
+body.rm .ticker div,body.rm .hero-glow,body.rm .hero-plane svg,body.rm .tl-node::after,body.rm .agent.groom::after{animation:none!important}
+
 /* ---------- Sheets, dossier, modal ---------- */
 .backdrop{position:fixed;inset:0;z-index:48;background:rgba(4,5,7,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 .sheet{position:fixed;z-index:50;left:10px;right:10px;bottom:calc(var(--bot) - 6px);max-height:calc(100% - var(--top) - var(--bot));overflow-y:auto;background:var(--glass-2);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border:1px solid var(--hair);border-radius:18px;padding:18px}
@@ -603,7 +764,7 @@ body.rm .bp,body.rm #grade::after{animation:none}
 
   <section class="ov scroll" data-ch="board" aria-labelledby="b-title">
     <div class="panel intel">
-      <p class="eyebrow">Departure intel</p>
+      <p class="eyebrow">Outbound flight · Thursday</p>
       <h2 id="b-title">Outbound to Barcelona</h2>
       <div id="intelOut"></div>
       <p class="fine">TBC = not added yet. The other rows on the board are jokes.</p>
@@ -628,7 +789,7 @@ body.rm .bp,body.rm #grade::after{animation:none}
         </div>
         <div class="bp-stub">
           <svg class="crest" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="29" fill="none" stroke="#0c0d10" stroke-width="2"/><circle cx="32" cy="32" r="23" fill="none" stroke="#FF4D4D" stroke-width="1.5" stroke-dasharray="3 3"/><path d="M22 18h9c8 0 13 5 13 14s-5 14-13 14h-9z" fill="none" stroke="#0c0d10" stroke-width="3.5"/><circle cx="32" cy="32" r="3" fill="#FF4D4D"/></svg>
-          <h3>Mission crew</h3>
+          <h3>Crew</h3>
           <ul class="bp-crew" id="bpCrew"></ul>
         </div>
       </div>
@@ -685,16 +846,16 @@ body.rm .bp,body.rm #grade::after{animation:none}
 
   <section class="ov" data-ch="missions" aria-labelledby="m-title">
     <div class="hub-head">
-      <p class="eyebrow">Mission map · Barcelona</p>
-      <h2 id="m-title">Pick a mission</h2>
+      <p class="eyebrow">Barcelona · Thursday – Sunday</p>
+      <h2 id="m-title">The plan</h2>
       <p class="fine" id="hubNote"></p>
     </div>
-    <div class="strip" id="strip" role="list" aria-label="Missions"></div>
+    <div class="hub-foot"><div class="dayfilter" id="mapDays" role="tablist" aria-label="Filter by day"></div><div class="strip" id="strip" role="list" aria-label="Plan"></div></div>
   </section>
 
   <section class="ov scroll" data-ch="squad" aria-labelledby="sq-title">
     <div class="squad">
-      <p class="eyebrow">Mission roster</p>
+      <p class="eyebrow">Dom's stag</p>
       <h2 id="sq-title">The Squad</h2>
       <div class="roster" id="roster"></div>
       <div class="row-actions"><button class="btn" id="btnCopy" type="button">Copy trip summary for WhatsApp</button><button class="btn" type="button" data-dossier="squad">Open full roster</button></div>
@@ -703,8 +864,8 @@ body.rm .bp,body.rm #grade::after{animation:none}
 
   <section class="ov scroll" data-ch="return" aria-labelledby="rt-title">
     <div class="panel intel">
-      <p class="eyebrow">Extraction</p>
-      <h2 id="rt-title">Return to London</h2>
+      <p class="eyebrow">Return flight · Sunday</p>
+      <h2 id="rt-title">Back to London</h2>
       <div id="intelIn"></div>
       <div class="row-actions"><button class="btn primary" type="button" data-go="finale">Roll the credits ›</button></div>
     </div>
@@ -722,7 +883,7 @@ body.rm .bp,body.rm #grade::after{animation:none}
 
 <aside class="mpanel" id="mpanel" aria-label="Mission details" hidden></aside>
 
-<nav id="tabbar" aria-label="Main">
+<nav id="tabbar" aria-label="Main"><i class="tab-ind" aria-hidden="true"></i>
   <button type="button" data-tab="journey"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h13A2.5 2.5 0 0 1 21 6.5v11a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/><path d="M10 9l5 3-5 3z"/></svg><span>Journey</span></button>
   <button type="button" data-tab="plan"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg><span>Plan</span></button>
   <button type="button" data-tab="map"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span>Map</span></button>
@@ -751,15 +912,26 @@ body.rm .bp,body.rm #grade::after{animation:none}
     <label><input type="radio" name="quality" value="lite" id="q-lite"><span>Lite 3D</span></label>
     <label><input type="radio" name="quality" value="2d" id="q-2d"><span>2D</span></label></div>
     <p class="set-note" id="qNote"></p></div>
-  <div class="set-group"><h3>Organisers</h3><label class="switch"><span>Reveal classified missions</span><input type="checkbox" id="setOrg"></label><p class="set-note">Shows surprise details on this device only. Keep it off when Dom is looking.</p></div>
+  <div class="set-group" id="adminGroup" hidden><h3>Admin</h3><button class="btn primary" id="btnAdmin" type="button" style="width:100%">Edit the plan</button><p class="set-note" id="adminNote"></p></div>
+  <div class="set-group"><h3>Organisers</h3><label class="switch"><span>Show surprise details</span><input type="checkbox" id="setOrg"></label><p class="set-note">Shows surprise details on this device only. Keep it off when Dom is looking.</p></div>
 </div>
 
 <div class="dossier" id="dossier" role="dialog" aria-modal="true" aria-labelledby="dosTitle" hidden>
   <div class="dos-in">
-    <div class="dos-head"><h2 id="dosTitle">Trip dossier</h2><button class="x" type="button" data-close aria-label="Close trip dossier">×</button></div>
+    <div class="dos-head"><h2 id="dosTitle"><span data-bind="groomPoss">Dom’s</span> Stag</h2><button class="edit-pill" id="btnEditTop" type="button" hidden>Edit plan</button><button class="x" type="button" data-close aria-label="Close trip dossier">×</button></div>
     <div class="tabs" role="tablist" aria-label="Trip information" id="tabs"></div>
     <div class="dos-body" id="dosBody" role="tabpanel"></div>
   </div>
+</div>
+
+<div class="editor" id="editor" role="dialog" aria-modal="true" aria-labelledby="edTitle" hidden>
+  <header class="ed-head">
+    <button class="ed-link" id="edCancel" type="button">Cancel</button>
+    <div class="ed-title"><h2 id="edTitle">Edit plan</h2><small id="edMode"></small></div>
+    <button class="btn primary ed-save" id="edSave" type="button">Save</button>
+  </header>
+  <nav class="ed-tabs" id="edTabs" aria-label="Sections"></nav>
+  <div class="ed-body" id="edBody"></div>
 </div>
 
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Keepsake" hidden>
@@ -848,10 +1020,10 @@ const TRIP = {
   ],
 
   days: [
-    { id: 'thu', label: 'Thursday', subtitle: 'Arrival day', date: null },
-    { id: 'fri', label: 'Friday', subtitle: 'Sagrada · water · pizza · Eixample', date: null },
-    { id: 'sat', label: 'Saturday', subtitle: 'Open day · football', date: null },
-    { id: 'sun', label: 'Sunday', subtitle: 'Extraction', date: null }
+    { id: 'thu', label: 'Thursday', subtitle: 'Arrival Day', date: null },
+    { id: 'fri', label: 'Friday', subtitle: null, date: null },
+    { id: 'sat', label: 'Saturday', subtitle: null, date: null },
+    { id: 'sun', label: 'Sunday', subtitle: null, date: null }
   ],
 
   /* Mission fields: title, subtitle, type (scene mood), district (beacon), day, time,
@@ -859,45 +1031,45 @@ const TRIP = {
      alert (bold callout), verify ("check before you go"), options (shortlist of venues). */
   missions: [
     // ---------------- THURSDAY ----------------
-    { id: 'touchdown', code: '01', title: 'Touchdown', subtitle: 'Gatwick to Barcelona', type: 'arrival', district: 'airport', day: 'thu', time: '09:55',
+    { id: 'touchdown', code: '01', title: 'Flight to Barcelona', subtitle: 'London Gatwick → Barcelona', icon: 'plane', type: 'arrival', district: 'airport', day: 'thu', time: '09:55',
       venue: 'Barcelona–El Prat Airport', status: 'planned',
       instructions: 'Wheels down 09:55. Regroup at arrivals, then take the Rodalies R2 Nord (R2N) train into the city, towards Sant Celoni / Maçanet-Massanes.',
       alert: 'R2 Nord, NOT R2.', verify: 'Check the exact station to get off at before you travel.',
-      notes: 'Flight leaves London Gatwick at 06:55 UK time.', blurb: 'Early start, Barcelona by breakfast.' },
-    { id: 'gothic', code: '02', title: 'Old Town Recon', subtitle: 'Explore the Gothic Quarter', type: 'activity', district: 'gothic', day: 'thu', time: null,
+      notes: 'Flight leaves London Gatwick at 06:55 UK time.', blurb: 'Lands in Barcelona at 09:55.' },
+    { id: 'gothic', code: '02', title: 'Explore the Gothic Quarter', subtitle: 'Gothic Quarter', icon: 'walk', type: 'activity', district: 'gothic', day: 'thu', time: null,
       venue: 'Barri Gòtic', mapUrl: 'https://www.google.com/maps/search/?api=1&query=Barri+G%C3%B2tic+Barcelona', status: 'planned',
       blurb: 'Wander the medieval lanes of the Gothic Quarter with the bags dropped or in tow.' },
-    { id: 'born', code: '03', title: 'El Born Briefing', subtitle: 'Drinks in El Born', type: 'nightlife', district: 'born', day: 'thu', time: null,
+    { id: 'born', code: '03', title: 'Drinks in El Born', subtitle: 'El Born', icon: 'beer', type: 'nightlife', district: 'born', day: 'thu', time: null,
       venue: 'El Born', mapUrl: 'https://www.google.com/maps/search/?api=1&query=El+Born+Barcelona', status: 'planned',
       blurb: 'First drinks of the weekend in El Born, next door to the Gothic Quarter.' },
-    { id: 'checkin', code: '04', title: 'Base Camp', subtitle: 'Check-in', type: 'hotel', district: 'city', day: 'thu', time: '15:00',
+    { id: 'checkin', code: '04', title: 'Check-in', subtitle: 'Accommodation', icon: 'bed', type: 'hotel', district: 'city', day: 'thu', time: '15:00',
       venue: null, status: 'planned', notes: 'Accommodation name and address to be added.',
-      blurb: 'Check-in opens at 15:00. Drop the bags, regroup, get ready for dinner.' },
-    { id: 'sensi', code: '05', title: 'Sensi Tapas', subtitle: 'Dinner', type: 'restaurant', district: 'gothic', day: 'thu', time: '20:00',
+      blurb: 'Check-in from 15:00.' },
+    { id: 'sensi', code: '05', title: 'Sensi Tapas', subtitle: 'Eat at Sensi Tapas', icon: 'food', type: 'restaurant', district: 'gothic', day: 'thu', time: '20:00',
       venue: 'Sensi Tapas', address: 'Carrer Ample, 26, 08002 Barcelona', mapUrl: 'https://www.google.com/maps/search/?api=1&query=Sensi+Tapas+Carrer+Ample+26+Barcelona',
       status: 'requested', notes: 'Reservation requested for 20:00, table for 5.',
       verify: 'Sensi runs more than one restaurant in the old town. Match the address to the booking confirmation.',
-      blurb: 'Tapas in the Gothic Quarter. First proper meal of the mission.' },
-    { id: 'stravinsky', code: '06', title: 'Dr. Stravinsky', subtitle: 'Cocktails', type: 'nightlife', district: 'born', day: 'thu', time: null,
+      blurb: 'Tapas in the Gothic Quarter.' },
+    { id: 'stravinsky', code: '06', title: 'Dr. Stravinsky', subtitle: 'Cocktails at Dr. Stravinsky', icon: 'cocktail', type: 'nightlife', district: 'born', day: 'thu', time: null,
       venue: 'Dr. Stravinsky', address: 'Carrer dels Mirallers, 5, 08003 Barcelona', mapUrl: 'https://www.google.com/maps/search/?api=1&query=Dr+Stravinsky+Carrer+dels+Mirallers+5+Barcelona',
       status: 'planned', notes: 'Opens 19:00 most nights, until about 2:30 on Thursdays.',
       blurb: 'One of the city’s best-known cocktail bars, a few minutes’ walk from dinner.' },
-    { id: 'out', code: '07', title: 'Night Ops', subtitle: 'Out', type: 'nightlife', district: 'olimpic', day: 'thu', time: null,
+    { id: 'out', code: '07', title: 'Out', subtitle: 'Night out', icon: 'party', type: 'nightlife', district: 'olimpic', day: 'thu', time: null,
       status: 'tentative', notes: 'Where exactly is decided on the night.',
-      blurb: 'And then… out.' },
+      blurb: 'And then out.' },
 
     // ---------------- FRIDAY ----------------
-    { id: 'sagrada', code: '08', title: 'Sagrada Família', subtitle: 'The landmark', type: 'activity', district: 'sagrada', day: 'fri', time: null,
+    { id: 'sagrada', code: '08', title: 'Sagrada Família', subtitle: 'Basílica de la Sagrada Família', icon: 'church', type: 'activity', district: 'sagrada', day: 'fri', time: null,
       venue: 'Basílica de la Sagrada Família', mapUrl: 'https://www.google.com/maps/search/?api=1&query=Sagrada+Fam%C3%ADlia+Barcelona', status: 'planned',
       notes: 'Ticket time to be confirmed.', blurb: 'Gaudí’s masterpiece. Mandatory squad photo.' },
-    { id: 'water', code: '09', title: 'Operation Water', subtitle: 'Drive / boat activity', type: 'beach', district: 'port', day: 'fri', time: null,
+    { id: 'water', code: '09', title: 'Drive / boat activity', subtitle: 'Weather dependent', icon: 'boat', type: 'beach', district: 'port', day: 'fri', time: null,
       status: 'tentative', alert: 'Weather dependent.', notes: 'Activity and provider to be confirmed.',
       blurb: 'A drive or boat activity on the water, if the weather plays along.' },
-    { id: 'sartoria', code: '10', title: 'Sartoria Panatieri', subtitle: 'Dinner', type: 'restaurant', district: 'eixample', day: 'fri', time: '19:45',
+    { id: 'sartoria', code: '10', title: 'Sartoria Panatieri', subtitle: 'Dinner', icon: 'pizza', type: 'restaurant', district: 'eixample', day: 'fri', time: '19:45',
       venue: 'Sartoria Panatieri', address: 'Carrer de Provença, 330, 08037 Barcelona', mapUrl: 'https://www.google.com/maps/search/?api=1&query=Sartoria+Panatieri+Proven%C3%A7a+330+Barcelona',
       status: 'to-organise', alert: 'Can be booked, but needs €10 each.', notes: '€10 per person to hold the booking.',
       blurb: 'Neapolitan-style pizza from one of Europe’s top-ranked pizzerias.' },
-    { id: 'eixample', code: '11', title: 'Eixample Crawl', subtitle: 'Drinks', type: 'nightlife', district: 'eixample', day: 'fri', time: null,
+    { id: 'eixample', code: '11', title: 'Drinks in Eixample', subtitle: 'Suggested venues', icon: 'cocktail', type: 'nightlife', district: 'eixample', day: 'fri', time: null,
       status: 'tentative', blurb: 'After-dinner drinks. Suggested bars below.',
       options: [
         { name: 'Space Cowboy', address: 'Carrer dels Carders, 31, 08003 Barcelona', note: 'Actually in the old town (Sant Pere / El Born), not the Eixample.', mapUrl: 'https://www.google.com/maps/search/?api=1&query=Space+Cowboy+Carrer+dels+Carders+31+Barcelona' },
@@ -906,23 +1078,23 @@ const TRIP = {
       ] },
 
     // ---------------- SATURDAY ----------------
-    { id: 'open', code: '12', title: 'Free Play', subtitle: 'Open to suggestions', type: 'beach', district: 'beach', day: 'sat', time: null,
+    { id: 'open', code: '12', title: 'Open to suggestions', subtitle: 'Free day', icon: 'sun', type: 'beach', district: 'beach', day: 'sat', time: null,
       status: 'to-organise', notes: 'Nothing planned yet. Pitch ideas in the group chat.',
-      blurb: 'The day is open. Best idea wins.' },
-    { id: 'football', code: '13', title: 'Matchday', subtitle: 'Football', type: 'activity', district: 'campnou', day: 'sat', time: null,
+      blurb: 'Nothing fixed yet. Share ideas in the group chat.' },
+    { id: 'football', code: '13', title: 'Football', subtitle: 'Metro line L5', icon: 'ball', type: 'activity', district: 'campnou', day: 'sat', time: null,
       status: 'tentative', instructions: 'Metro line L5.',
       notes: 'Spotify Camp Nou is served by L5 at Collblanc, Badal and Ernest Lluch.',
       verify: 'Match, tickets and kick-off not confirmed yet. One word under the football note was illegible.',
       blurb: 'Football on Saturday, heading out on metro line L5.' },
 
     // ---------------- SUNDAY ----------------
-    { id: 'checkout', code: '14', title: 'Check-out', subtitle: 'Leave base camp', type: 'hotel', district: 'city', day: 'sun', time: '11:00',
+    { id: 'checkout', code: '14', title: 'Check-out', subtitle: 'Accommodation', icon: 'bag', type: 'hotel', district: 'city', day: 'sun', time: '11:00',
       status: 'planned', notes: 'The flight is at 21:45, so plan somewhere to leave bags for the day.',
       blurb: 'Out of the rooms by 11:00.' },
-    { id: 'extraction', code: '15', title: 'Extraction', subtitle: 'Barcelona to Gatwick', type: 'return', district: 'airport', day: 'sun', time: '21:45',
+    { id: 'extraction', code: '15', title: 'Flight home', subtitle: 'Barcelona → London Gatwick', icon: 'plane', type: 'return', district: 'airport', day: 'sun', time: '21:45',
       venue: 'Barcelona–El Prat Airport', status: 'planned',
       instructions: 'Rodalies R2 Nord (R2N) back to the airport. Flight departs 21:45, lands at Gatwick 23:10 UK time.',
-      alert: 'R2 Nord, NOT R2.', blurb: 'Home with the stories. What happens in Barcelona…' }
+      alert: 'R2 Nord, NOT R2.', blurb: 'Back to London Gatwick.' }
   ],
 
   costs: { currency: 'EUR', extras: [ { label: 'Sartoria Panatieri booking', perPerson: 10 } ] },
@@ -974,10 +1146,33 @@ const portrait=()=>innerHeight>innerWidth*1.05;
 const inFrame=(()=>{try{return window.self!==window.top}catch(e){return true}})();
 function toast(msg,ms=3200){const t=$('#toast');t.textContent=msg;t.classList.add('in');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('in'),ms)}
 
+const ICON={
+  plane:'<path d="M2.5 13.5l7.5-1 5-8h2.5l-2.5 8 5-.5 1.5-2h1.5l-1 3.5 1 3.5h-1.5l-1.5-2-5-.5 2.5 8H15l-5-8-7.5-1z"/>',
+  walk:'<circle cx="13" cy="4" r="2"/><path d="M10 21l2-6 3 3v3M9 11l3-3 3 3 3 1M12 8l-1 7"/>',
+  beer:'<path d="M6 6h10v13a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2zM16 9h2a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2M6 6c0-2 2-3 3.5-2 1-1.5 4-1.5 5 0 1.5-.5 2 1 1.5 2"/>',
+  bed:'<path d="M3 18V7M3 13h18v5M21 13a3 3 0 0 0-3-3h-7v3"/><circle cx="7" cy="10.5" r="1.5"/>',
+  food:'<path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 3c-2 0-3 2-3 6h3v12"/>',
+  cocktail:'<path d="M4 4h16l-8 9zM12 13v7M8 21h8M15 4l3-2"/>',
+  party:'<path d="M4 20l5-14 9 9zM14 5l1-2M18 9l2-1M16 7l3-3"/>',
+  church:'<path d="M12 2v4M10 4h4M8 22V10l4-4 4 4v12M4 22v-7l4-3M20 22v-7l-4-3M11 22v-4h2v4"/>',
+  boat:'<path d="M3 16l2 4h14l2-4zM12 16V3l6 10H12M12 6L7 13h5"/>',
+  pizza:'<path d="M12 22L3 6c5-3 13-3 18 0z"/><circle cx="10" cy="9" r="1"/><circle cx="14" cy="12" r="1"/><circle cx="12" cy="16" r="1"/>',
+  ball:'<circle cx="12" cy="12" r="9"/><path d="M12 7l4 3-1.5 5h-5L8 10zM12 3v4M21 10l-5 0M18 19l-3.5-4M6 19l3.5-4M3 10h5"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/>',
+  bag:'<rect x="4" y="7" width="16" height="13" rx="2"/><path d="M9 7V4h6v3M8 11v5M16 11v5"/>',
+  train:'<rect x="6" y="3" width="12" height="14" rx="3"/><path d="M6 11h12M9 21l1.5-4M15 21l-1.5-4M9 14h.01M15 14h.01"/>',
+  pin:'<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/>'
+};
+const TYPEICON={arrival:'plane',return:'plane',hotel:'bed',restaurant:'food',nightlife:'cocktail',beach:'sun',activity:'pin'};
+const iconOf=m=>ICON[m.icon]||ICON[TYPEICON[m.type]]||ICON.pin;
+const svgI=(m,cls='')=>`<svg class="ico ${cls}" viewBox="0 0 24 24" aria-hidden="true">${iconOf(m)}</svg>`;
+const DAYC=['#FF4D4D','#FFB86B','#3E8CCB','#5CC9A7','#C9A2FF','#F5F5F2'];
+const dayColor=id=>{const i=TRIP.days.findIndex(d=>d.id===id);return DAYC[(i<0?0:i)%DAYC.length]};
+const shortDay=d=>(d.label||'').slice(0,3);
 const STATUS={confirmed:{label:'Confirmed',c:'#5CC9A7'},planned:{label:'In the plan',c:'#6FB0E6'},requested:{label:'Requested',c:'#C9A2FF'},tentative:{label:'Tentative',c:'#FFB86B'},'to-organise':{label:'To organise',c:'#FF4D4D'}};
 const statusOf=m=>STATUS[m.status]||STATUS['to-organise'];
 const isSecret=m=>m.surprise&&!S.organiser;
-const mTitle=m=>isSecret(m)?'Classified':m.title;
+const mTitle=m=>isSecret(m)?'Surprise':m.title;
 const dayOf=m=>TRIP.days.find(d=>d.id===m.day)||null;
 function fmtDate(iso){if(!iso)return null;const d=new Date(iso+'T12:00:00Z');if(isNaN(d))return iso;return d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',timeZone:'UTC'})}
 function zonedToUtc(date,time,tz){const g=new Date(`${date}T${time||'00:00'}:00Z`);if(isNaN(g))return null;try{const f=new Intl.DateTimeFormat('en-GB',{timeZone:tz,hourCycle:'h23',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});const p=Object.fromEntries(f.formatToParts(g).map(x=>[x.type,x.value]));const asUtc=Date.UTC(+p.year,+p.month-1,+p.day,+p.hour%24,+p.minute);return new Date(g.getTime()-(asUtc-g.getTime()))}catch(e){return g}}
@@ -1409,7 +1604,8 @@ function buildCity(){
   // aircraft for arrival / return scenes
   const jet=makeAircraft({tail:0xff4d4d});jet.scale.setScalar(3);jet.rotation.order='YZX';jet.visible=false;s.add(jet);
 
-  // mission beacons and per-type effects
+  // plan beacons and per-type effects (rebuilt when the plan is edited)
+  Wd.buildMarkers=()=>{Wd.markers.forEach(mk=>s.remove(mk.g));Wd.fx.forEach(f=>s.remove(f.group));Wd.markers.length=0;Wd.fx.length=0;
   const counts={};
   TRIP.missions.forEach((m,i)=>{const d=DISTRICT[m.district]||DISTRICT.city;const k=counts[m.district]=(counts[m.district]||0)+1;const ang=(k-1)*2.1,rr=(k>1?52:0)+(k>3?30:0),x=d[0]+Math.cos(ang)*rr,z=d[1]+Math.sin(ang)*rr;
     const c=new THREE.Color(isSecret(m)?'#8E98A7':statusOf(m).c);const g=new THREE.Group();g.position.set(x,0,z);
@@ -1420,7 +1616,8 @@ function buildCity(){
     const halo=new THREE.Sprite(new THREE.SpriteMaterial({map:TX.glow,color:c,transparent:true,opacity:.75,blending:THREE.AdditiveBlending,depthWrite:false}));halo.scale.set(38,38,1);halo.position.y=158;
     g.add(beam,ring,gem,halo);g.visible=false;s.add(g);m._pos=new THREE.Vector3(x,0,z);
     Wd.markers.push({m,g,bm,rm,ring,gem,halo,anchor:new THREE.Vector3(x,172,z),el:null});
-    Wd.fx.push(buildFx(s,m,x,z))});
+    Wd.fx.push(buildFx(s,m,x,z))})};
+  Wd.buildMarkers();
 
   Wd.mood={};
   Wd.applyMood=(o)=>{const u=sky.material.uniforms;u.uTop.value.copy(o.top);u.uHor.value.copy(o.hor);u.uBot.value.copy(o.bot);u.uSun.value.set(...o.sunDir);u.uSunCol.value.copy(o.sunCol);u.uCloud.value=o.sky;u.uCloudCol.value.copy(o.cloud);
@@ -1492,7 +1689,7 @@ function vantage(m){const M=m._pos,P=portrait();let o;switch(m.type){case 'beach
 const CH=[
   {id:'terminal',label:'Terminal',w:'T'},{id:'board',label:'Departures',w:'T'},{id:'pass',label:'Boarding pass',w:'T'},{id:'boarding',label:'Boarding',w:'T',seq:true},
   {id:'takeoff',label:'Takeoff',w:'F',seq:true},{id:'flight',label:'The flight',w:'F'},{id:'arrival',label:'Barcelona',w:'B',seq:true},
-  {id:'missions',label:'Missions',w:'B'},{id:'squad',label:'The squad',w:'B'},{id:'return',label:'Return',w:'B'},{id:'finale',label:'Finale',w:'B'}];
+  {id:'missions',label:'The plan',w:'B'},{id:'squad',label:'The squad',w:'B'},{id:'return',label:'Flight home',w:'B'},{id:'finale',label:'Finale',w:'B'}];
 const idx=id=>CH.findIndex(c=>c.id===id);
 let cur=-1,seq=null,pendingMission=null,activeMission=null;
 const seqActive=()=>!!(seq&&seq.isActive&&seq.isActive());
@@ -1547,7 +1744,7 @@ const ENTER={
     if(reduced()){cam.p.copy(P[P.length-1]);cam.t.copy(Tg[Tg.length-1]);seq=gsap.delayedCall(.4,()=>a.classList.add('show'));return}
     const pr={u:0};let shown=false;cam.p.copy(P[0]);cam.t.copy(Tg[0]);
     seq=gsap.to(pr,{u:1,duration:16,ease:'power1.inOut',onUpdate:()=>{cp.getPoint(pr.u,cam.p);ct.getPoint(pr.u,cam.t);if(!shown&&pr.u>.44){shown=true;a.classList.add('show');Audio.score(.6)}}})},
-  missions(cut){if(!GL){return openPending()}const B=worlds.B;B.markers.forEach(mk=>{mk.g.visible=true;mk.sel=false;mk.dim=false});B.setMood('dusk',cut?0:2.2);setLabels(true);
+  missions(cut){if(!GL){return openPending()}const B=worlds.B;B.markers.forEach(mk=>{mk.g.visible=true;mk.sel=false;mk.dim=false});applyMapFilter();B.setMood('dusk',cut?0:2.2);setLabels(true);
     if(pendingMission){openPending(cut)}else flyTo(TP.hub(),cut?0:2.8)},
   squad(cut){if(!GL)return;const B=worlds.B;B.setMood('night',cut?0:2.4);const P=portrait();B.orbit={c:[56,P?40:70,-112],r:P?420:340,h:P?220:150,speed:.045,a:Math.atan2(cam.p.z+112,cam.p.x-56)};if(cut){cam.p.set(56+340,150,-112);cam.t.set(56,70,-112)}},
   return(cut){if(!GL)return;const B=worlds.B;B.setMood('dusk',cut?0:2.2);B.planeMode='takeoff';flyTo(TP.ret(),cut?0:3)},
@@ -1575,14 +1772,20 @@ function flightHud(){const k=clamp((performance.now()-flightStart)/90000,0,.85)*
 function setLabels(on){$('#labels').classList.toggle('hide',!on||!GL)}
 function buildLabels(){const box=$('#labels');box.innerHTML='';if(!worlds.B)return;
   worlds.B.markers.forEach(mk=>{const m=mk.m,b=document.createElement('button');b.type='button';b.className='mk';b.style.setProperty('--c',isSecret(m)?'#8E98A7':statusOf(m).c);
-    b.innerHTML=`<span class="n">${esc(m.code)}</span><span class="t">${esc(mTitle(m))}</span>`;b.setAttribute('aria-label',`Mission ${m.code}: ${mTitle(m)}, ${statusOf(m).label}`);b.tabIndex=-1;
+    b.innerHTML=`<span class="n">${svgI(isSecret(m)?{icon:'party'}:m)}</span><span class="t">${esc(mTitle(m))}</span>`;b.setAttribute('aria-label',`${mTitle(m)}, ${statusOf(m).label}`);b.tabIndex=-1;
     b.addEventListener('click',()=>openMission(m));box.appendChild(b);mk.el=b})}
 function projectLabels(){const B=worlds.B;if(!B||$('#labels').classList.contains('hide'))return;const w=innerWidth,h=innerHeight;
   for(const mk of B.markers){if(!mk.el)continue;_vA.copy(mk.anchor).project(camera);const sy=(-_vA.y*.5+.5)*h,vis=_vA.z<1&&Math.abs(_vA.x)<1.05&&sy>110&&sy<h-60;
     mk.el.style.transform=`translate(${(_vA.x*.5+.5)*w}px,${(-_vA.y*.5+.5)*h}px) translate(-50%,-115%)`;mk.el.classList.toggle('off',!vis);mk.el.classList.toggle('sel',!!mk.sel)}}
-function renderStrip(){const s=$('#strip');s.innerHTML=TRIP.missions.map(m=>`<button type="button" class="chip" role="listitem" data-m="${esc(m.id)}" style="--c:${isSecret(m)?'#8E98A7':statusOf(m).c}"><span class="n">${esc(m.code)}</span><span class="t">${esc(mTitle(m))}</span><span class="s"><i class="dot"></i>${esc(dayOf(m)?dayOf(m).label:'')} · ${esc(statusOf(m).label)}</span></button>`).join('');
+let mapDay='all';
+function renderStrip(){const s=$('#strip');const days=TRIP.days.filter(d=>TRIP.missions.some(m=>m.day===d.id));
+  $('#mapDays').innerHTML=[{id:'all',label:'All'},...days].map(d=>`<button type="button" role="tab" aria-selected="${mapDay===d.id}" data-day="${esc(d.id)}" style="--dc:${d.id==='all'?'#F5F5F2':dayColor(d.id)}">${esc(d.id==='all'?'All':shortDay(d))}</button>`).join('');
+  $$('#mapDays button').forEach(b=>b.onclick=()=>{mapDay=b.dataset.day;buzz();Audio.blip(1000);renderStrip();applyMapFilter();if(GL&&!activeMission)flyTo(TP.hub(),1.6)});
+  const list=TRIP.missions.filter(m=>mapDay==='all'||m.day===mapDay);
+  s.innerHTML=list.map((m,i)=>`<button type="button" class="chip" role="listitem" data-m="${esc(m.id)}" style="--c:${isSecret(m)?'#8E98A7':statusOf(m).c};--dc:${dayColor(m.day)};--i:${i}"><span class="n">${svgI(isSecret(m)?{icon:'party'}:m)}</span><span class="t">${esc(mTitle(m))}</span><span class="s"><i class="dot"></i>${esc(dayOf(m)?shortDay(dayOf(m)):'')}${m.time?' · '+esc(m.time):''} · ${esc(statusOf(m).label)}</span></button>`).join('');
   $$('.chip',s).forEach(b=>b.addEventListener('click',()=>openMission(TRIP.missions.find(m=>m.id===b.dataset.m))));
-  const unset=TRIP.missions.some(m=>!m.address&&!m.mapUrl);$('#hubNote').textContent=(GL?'Tap a beacon or a mission below. ':'Pick a mission below. ')+(unset?'Beacon positions are illustrative until venues are confirmed.':'')}
+  const unset=TRIP.missions.some(m=>!m.address&&!m.mapUrl);$('#hubNote').textContent=(GL?'Tap a pin or a stop below. ':'Tap a stop below. ')+(unset?'Pins without an address are placed roughly.':'')}
+function applyMapFilter(){if(!worlds.B||CH[cur].id!=='missions')return;worlds.B.markers.forEach(mk=>{const on=mapDay==='all'||mk.m.day===mapDay;mk.g.visible=on;if(mk.el)mk.el.classList.toggle('filt',!on)})}
 const MOODFOR={arrival:'golden',hotel:'golden',restaurant:'dusk',beach:'day',nightlife:'night',activity:'day',return:'dusk'};
 function openMission(m,cut){if(!m)return;Audio.blip(1300);buzz(10);$('#mpanel').classList.remove('tall');
   if(CH[cur].id!=='missions'){pendingMission=m;goTo(idx('missions'));return}
@@ -1605,15 +1808,15 @@ function missionLinks(m){if(isSecret(m))return '';const out=[];const mh=mapHref(
   return out.length?`<div class="row-actions">${out.join('')}</div>`:''}
 function renderMissionPanel(m){const p=$('#mpanel'),st=statusOf(m),sec=isSecret(m),list=TRIP.missions,i=list.indexOf(m);
   p.style.setProperty('--c',sec?'#8E98A7':st.c);
-  p.innerHTML=`<button class="grab" type="button" aria-label="Drag down to close, tap to resize"></button><div class="mp-top"><span class="mp-code">${esc(m.code)}</span><div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">${m.example?'<span class="tag">Example</span>':''}<span class="status" style="--c:${st.c}">${st.label}</span><button class="x" type="button" id="mpClose" aria-label="Back to the mission map">×</button></div></div>
+  p.innerHTML=`<button class="grab" type="button" aria-label="Drag down to close, tap to resize"></button><div class="mp-top"><span class="mp-code">${svgI(sec?{icon:'party'}:m,'mp-ico')}<small>${esc(dayOf(m)?dayOf(m).label:'')}${m.time?' · '+esc(m.time):''}</small></span><div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">${m.example?'<span class="tag">Example</span>':''}<span class="status" style="--c:${st.c}">${st.label}</span><button class="x" type="button" id="mpClose" aria-label="Back to the map">×</button></div></div>
   <h3>${esc(mTitle(m))}</h3><p class="mp-sub">${esc(sec?'Details released on the day':m.subtitle||'')}</p>
-  ${sec?'<p class="classified">Classified. The organisers are keeping this one quiet. Turn on organiser view in Settings to see it.</p>':''}
+  ${sec?'<p class="classified">Surprise. Details are hidden for now.</p>':''}
   ${!sec&&m.image?`<figure class="mp-media"><img src="${esc(m.image)}" alt="${esc(m.title)}" onerror="this.parentNode.remove()"></figure>`:''}
   ${!sec&&m.blurb?`<p class="mp-blurb">${esc(m.blurb)}</p>`:''}
   ${missionExtras(m)}<dl class="kv">${fieldList(m).map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>
   ${!sec&&!m.venue&&!m.address?'<p class="fine">Venue not set yet.</p>':''}
   ${missionLinks(m)}
-  <div class="mp-nav"><button class="btn small" type="button" id="mpPrev" ${i<=0?'disabled':''}>‹ Prev</button><button class="btn small" type="button" id="mpMap">Mission map</button><button class="btn small" type="button" id="mpNext" ${i>=list.length-1?'disabled':''}>Next ›</button></div>`;
+  <div class="mp-nav"><button class="btn small" type="button" id="mpPrev" ${i<=0?'disabled':''}>‹ Prev</button><button class="btn small" type="button" id="mpMap">Map</button><button class="btn small" type="button" id="mpNext" ${i>=list.length-1?'disabled':''}>Next ›</button></div>`;
   p.hidden=false;requestAnimationFrame(()=>p.classList.add('in'));p.scrollTop=0;
   $('#mpClose').onclick=()=>closeMission();$('#mpMap').onclick=()=>closeMission();
   $('#mpPrev').onclick=()=>openMission(list[i-1]);$('#mpNext').onclick=()=>openMission(list[i+1]);
@@ -1635,7 +1838,7 @@ function flightCard(o,isOut){const fl=[o.airline,o.flightNumber].filter(Boolean)
   return `<div class="tiles">${tile('Departs',o.departs?o.departs+(isOut?' UK':' BCN'):null)}${tile('Lands',o.arrives?o.arrives+(isOut?' BCN':' UK'):null)}${tile('Day',flDate(o))}${tile('Flight no.',fl)}</div>${transportStrip(isOut)}
   <details class="more"><summary>All flight details</summary><dl class="kv">${kvRows(o,isOut)}</dl></details>`}
 function bindContent(){const g=TRIP.groom.name||'Dom';
-  $$('[data-bind="groomUpper"]').forEach(e=>e.textContent=g.toUpperCase());$$('[data-bind="title"]').forEach(e=>e.textContent=TRIP.title);$$('[data-bind="tagline"]').forEach(e=>e.textContent=TRIP.tagline);
+  $$('[data-bind="groomUpper"]').forEach(e=>e.textContent=g.toUpperCase());$$('[data-bind="groomPoss"]').forEach(e=>e.textContent=g+'’s');$$('[data-bind="title"]').forEach(e=>e.textContent=TRIP.title);$$('[data-bind="tagline"]').forEach(e=>e.textContent=TRIP.tagline);
   $('#intelOut').innerHTML=flightCard(TRIP.outbound,true);$('#intelIn').innerHTML=flightCard(TRIP.inbound,false);
   $('#bdGate').textContent=TRIP.outbound.gate||'TBC';
   $('#ar-title').textContent=TRIP.copy.arrival[0];$('#arr2').textContent=TRIP.copy.arrival[1];
@@ -1644,7 +1847,7 @@ function bindContent(){const g=TRIP.groom.name||'Dom';
   const o=TRIP.outbound,code=(a,el)=>{el.textContent=a.code||a.city.toUpperCase();el.classList.toggle('word',!a.code)};code(o.from,$('#bpFrom'));code(o.to,$('#bpTo'));$('#bpFromCity').textContent=o.from.airport||o.from.city;$('#bpToCity').textContent=o.to.airport||o.to.city;
   const cell=(k,v)=>`<div><b>${k}</b><span>${has(v)?esc(v):'TBC'}</span></div>`;
   $('#bpGrid').innerHTML=cell('Passenger','The Squad')+cell('Flight',[o.airline,o.flightNumber].filter(Boolean).join(' ')||null)+cell('Day',flDate(o))+cell('Boarding',o.boarding)+cell('Gate',o.gate)+cell('Seat',TRIP.copy.passSeat);
-  $('#bpMore').innerHTML=cell('Departs',o.departs?o.departs+' UK':null)+cell('Arrives',o.arrives?o.arrives+' BCN':null)+cell('Terminal',o.terminal)+cell('Then','R2 Nord train')+cell('Weekend',tripDates())+cell('Mission','Celebrate '+g);
+  $('#bpMore').innerHTML=cell('Departs',o.departs?o.departs+' UK':null)+cell('Arrives',o.arrives?o.arrives+' BCN':null)+cell('Terminal',o.terminal)+cell('Then','R2 Nord train')+cell('Weekend',tripDates())+cell('Occasion',g+'’s stag');
   $('#bpCrew').innerHTML=TRIP.squad.map(p=>`<li>${esc(p.name)}${p.isGroom?' · groom':''}</li>`).join('')+(TRIP.squad.length<(TRIP.squadSize||2)?`<li style="color:#6a7079">+ ${(TRIP.squadSize||2)-TRIP.squad.length} more, names TBC</li>`:'');
   // flight HUD up next
   $('#roRunway').textContent='Runway · '+(o.from.airport||o.from.city);$('#rtFrom').textContent=o.from.code||'LON';$('#rtFromCity').textContent=(o.from.airport||o.from.city).replace('London ','');
@@ -1670,11 +1873,11 @@ function updateRail(){$$('.seg').forEach((b,i)=>{b.classList.toggle('done',i<cur
   $('#chNum').textContent=`${String(cur+1).padStart(2,'0')} / ${CH.length}`;$('#chName').textContent=CH[cur].label;$('#prevCh').disabled=cur<=0;$('#nextCh').disabled=cur>=CH.length-1}
 let NEXT=null;
 function nextUp(){const now=Date.now();const timed=TRIP.missions.map(m=>({m,t:missionStart(m)})).filter(x=>x.t&&x.t.getTime()>now).sort((a,b)=>a.t-b.t);NEXT=timed.length?timed[0].m:TRIP.missions[0]||null}
-function nextCardHTML(){if(!NEXT)return '';const m=NEXT;return `<button type="button" class="nextcard" data-open-m="${esc(m.id)}"><span><b>Next up</b><strong>${esc(m.code)} ${esc(mTitle(m))}</strong><small>${esc(missionWhen(m))}${!isSecret(m)&&m.meetingPoint?' · Meet: '+esc(m.meetingPoint):''}</small></span><i aria-hidden="true">›</i></button>`}
+function nextCardHTML(){if(!NEXT)return '';const m=NEXT;return `<button type="button" class="nextcard" data-open-m="${esc(m.id)}">${svgI(m,'nc-ico')}<span><b>Next up</b><strong>${esc(mTitle(m))}</strong><small>${esc(missionWhen(m))}${!isSecret(m)&&m.meetingPoint?' · Meet: '+esc(m.meetingPoint):''}</small></span><i aria-hidden="true">›</i></button>`}
 let lastFocus=null;
 let tabNow='journey';
 function syncTabs(){let t='journey';if(!$('#dossier').hidden)t=dosTab==='sos'?'sos':dosTab==='squad'?'squad':'plan';else if(CH[cur]&&CH[cur].id==='missions')t='map';tabNow=t;
-  $$('#tabbar button').forEach(b=>{if(b.dataset.tab===t)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')})}
+  const bs=$$('#tabbar button');bs.forEach((b,i)=>{if(b.dataset.tab===t){b.setAttribute('aria-current','page');$('#tabbar').style.setProperty('--ti',i)}else b.removeAttribute('aria-current')})}
 function onTab(t){buzz();Audio.blip(1100);
   if(t==='journey'){if(anyDialog()){closeDialogs();if(tabNow==='journey')openDialog($('#sheetCh'))}else openDialog($('#sheetCh'))}
   else if(t==='plan')openDossier('itinerary');else if(t==='squad')openDossier('squad');else if(t==='sos')openDossier('sos');
@@ -1682,24 +1885,46 @@ function onTab(t){buzz();Audio.blip(1100);
   syncTabs()}
 function openDialog(el){closeDialogs(true);lastFocus=document.activeElement;$('#backdrop').hidden=el.id==='dossier'||el.id==='modal';el.hidden=false;const f=el.querySelector('[aria-selected="true"],button,input,a');if(f)f.focus({preventScroll:true})}
 function closeDialogs(keepFocus){let any=false;['sheetCh','sheetSet','dossier','modal'].forEach(id=>{const e=$('#'+id);if(!e.hidden){e.hidden=true;any=true}});$('#backdrop').hidden=true;if(any&&!keepFocus&&lastFocus)lastFocus.focus({preventScroll:true});syncTabs()}
-const anyDialog=()=>['sheetCh','sheetSet','dossier','modal'].some(id=>!$('#'+id).hidden);
+const anyDialog=()=>['sheetCh','sheetSet','dossier','modal','editor'].some(id=>!$('#'+id).hidden);
 
-const TABS=[{id:'itinerary',label:'Itinerary'},{id:'flights',label:'Flights'},{id:'transport',label:'Train'},{id:'stay',label:'Stay'},{id:'costs',label:'Costs'},{id:'squad',label:'Squad'},{id:'links',label:'Links & docs'},{id:'sos',label:'Emergency',sos:true}];
+const TABS=[{id:'itinerary',label:'Plan'},{id:'flights',label:'Flights'},{id:'transport',label:'Train'},{id:'stay',label:'Stay'},{id:'costs',label:'Costs'},{id:'squad',label:'Squad'},{id:'links',label:'Links'},{id:'sos',label:'Emergency',sos:true}];
 function openDossier(tab='itinerary'){openDialog($('#dossier'));showTab(tab)}
 let dosTab='itinerary';
 function showTab(id){dosTab=id;$('#tabs').innerHTML=TABS.map(t=>`<button type="button" role="tab" id="tab-${t.id}" aria-selected="${t.id===id}" class="${t.sos?'sos':''}" data-t="${t.id}">${t.label}</button>`).join('');
   $$('#tabs button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.t)));
-  const body=$('#dosBody');body.setAttribute('aria-labelledby','tab-'+id);body.innerHTML=(TRIP.isPlaceholder?'<div class="banner"><span><b>Placeholder plan.</b> Nothing below is booked. Organisers: edit the TRIP config at the top of the page source and set isPlaceholder to false.</span></div>':'')+TABVIEW[id]();body.scrollTop=0;
+  const body=$('#dosBody');body.setAttribute('aria-labelledby','tab-'+id);body.classList.remove('swap');void body.offsetWidth;body.classList.add('swap');body.innerHTML=(TRIP.isPlaceholder?'<div class="banner"><span><b>Placeholder plan.</b> Nothing below is booked. Organisers: edit the TRIP config at the top of the page source and set isPlaceholder to false.</span></div>':'')+TABVIEW[id]();body.scrollTop=0;
   $$('[data-open-m]',body).forEach(b=>b.addEventListener('click',()=>{closeDialogs();openMission(TRIP.missions.find(m=>m.id===b.dataset.openM))}));
   $$('[data-copy]',body).forEach(b=>b.addEventListener('click',()=>copyText(b.dataset.copy)));
   const cb=$('#dosCopy',body);if(cb)cb.addEventListener('click',copySummary);
-  const t=$('#tab-'+id);if(t){t.focus({preventScroll:true});t.scrollIntoView({inline:'center',block:'nearest'})}syncTabs()}
+  $$('.daybar button',body).forEach(b=>b.addEventListener('click',()=>{dayFilter=b.dataset.day;buzz();const y=body.scrollTop;showTab('itinerary');const hero=$('.hero',body);body.scrollTop=hero?Math.min(y,hero.offsetHeight):0}));
+  countUp(body);tickCountdown();
+  $('#btnEditTop').hidden=!adminMode;const t=$('#tab-'+id);if(t){t.focus({preventScroll:true});t.scrollIntoView({inline:'center',block:'nearest'})}syncTabs()}
+let dayFilter='all';
+function heroHTML(){const o=TRIP.outbound,dep=o.date&&o.departs?zonedToUtc(o.date,o.departs,TRIP.timezones.origin):null;
+  const tick=`R2 NORD, NOT R2 ✦ ${esc(TRIP.tagline.toUpperCase())} ✦ ${esc(o.from.code||'')} → ${esc(o.to.code||'')} ✦ ${esc((TRIP.groom.name||'').toUpperCase())}’S STAG ✦ `;
+  const stats=[[TRIP.missions.length,'stops'],[TRIP.days.length,'days'],[TRIP.squadSize||TRIP.squad.length,'squad'],[TRIP.missions.filter(m=>m.status==='confirmed'||m.status==='planned'||m.status==='requested').length,'in the plan']];
+  return `<div class="hero"><div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-row"><span class="hero-k">Barcelona</span><span class="hero-k">${esc(tripDates()||'')}</span></div>
+  <h3 class="hero-h"><span>${esc((TRIP.groom.name||'').toUpperCase())}’S</span> STAG</h3>
+  <div class="hero-route"><b>${esc(o.from.code||'LON')}</b><svg viewBox="0 0 300 50" preserveAspectRatio="none" aria-hidden="true"><path d="M6 44 Q150 -14 294 44" fill="none" stroke="rgba(245,245,242,.35)" stroke-width="1.5" stroke-dasharray="4 6" vector-effect="non-scaling-stroke"/></svg><i class="hero-plane" aria-hidden="true"><svg viewBox="0 0 24 24">${ICON.plane}</svg></i><b>${esc(o.to.code||'BCN')}</b></div>
+  ${dep?`<div class="cd" id="cd" data-t="${dep.getTime()}">${['days','hrs','min','sec'].map(u=>`<div><b data-u="${u}">--</b><small>${u}</small></div>`).join('')}</div>`
+     :`<div class="hero-next"><b>${esc(o.dayLabel||'')} ${esc(o.departs||'')}</b> ${esc(o.from.airport||o.from.city)} → ${esc(o.to.airport||o.to.city)}<small>${adminMode?'Add the trip dates in Edit plan to start a countdown.':''}</small></div>`}
+  <div class="stats">${stats.map(([v,l])=>`<div><b data-count="${v}">${v}</b><small>${l}</small></div>`).join('')}</div>
+  <div class="ticker" aria-hidden="true"><div>${tick.repeat(4)}</div></div></div>`+nextCardHTML()}
+function tickCountdown(){const el=$('#cd');if(!el)return;let d=Math.max(0,+el.dataset.t-Date.now())/1000;const v={days:Math.floor(d/86400),hrs:Math.floor(d%86400/3600),min:Math.floor(d%3600/60),sec:Math.floor(d%60)};
+  $$('[data-u]',el).forEach(b=>{const t=String(v[b.dataset.u]).padStart(2,'0');if(b.textContent!==t){b.textContent=t;b.classList.remove('flip');void b.offsetWidth;b.classList.add('flip')}})}
+setInterval(tickCountdown,1000);
+function countUp(root){if(reduced())return;$$('[data-count]',root).forEach(b=>{const to=+b.dataset.count,t0=performance.now();const f=now=>{const k=Math.min(1,(now-t0)/900);b.textContent=Math.round(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)})}
 function statusLegend(){const used=[...new Set(TRIP.missions.map(m=>m.status))];return `<div class="legend">${Object.entries(STATUS).filter(([k])=>used.includes(k)).map(([k,v])=>`<span><i class="dot" style="--c:${v.c}"></i>${v.label}</span>`).join('')}</div>`}
 const TABVIEW={
-  itinerary(){return nextCardHTML()+statusLegend()+TRIP.days.map(d=>{const ms=TRIP.missions.filter(m=>m.day===d.id);if(!ms.length)return '';
-    return `<section class="day"><h3 class="day-h">${esc(d.label)} <small>${d.date?esc(fmtDate(d.date)):esc(d.subtitle||'Date TBC')}</small></h3>${ms.map(m=>{const st=statusOf(m),f=fieldList(m);
-      return `<details class="it"><summary><span class="n">${esc(m.code)}</span><span><span class="tt">${esc(mTitle(m))}</span><span class="when">${esc(m.time||'Time TBC')}${!isSecret(m)&&m.venue?' · '+esc(m.venue):''}${m.meetingPoint?' · Meet: '+esc(m.meetingPoint):''}${m.alert&&!isSecret(m)?` · <span class="hi">${esc(m.alert)}</span>`:''}</span></span><span class="status" style="--c:${st.c}">${st.label}</span></summary>
-      <div class="it-body">${isSecret(m)?'<p class="classified">Classified until the day.</p>':m.blurb?`<p class="mp-blurb">${esc(m.blurb)}</p>`:''}${missionExtras(m)}<dl class="kv">${f.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>${missionLinks(m)}<div class="row-actions"><button class="btn small" type="button" data-open-m="${esc(m.id)}">Show in the city</button></div></div></details>`}).join('')}</section>`}).join('')||'<p class="empty">No missions yet.</p>'},
+  itinerary(){const days=TRIP.days.filter(d=>TRIP.missions.some(m=>m.day===d.id));
+    const show=dayFilter==='all'?days:days.filter(d=>d.id===dayFilter);let n=0;
+    const bar=`<div class="daybar" role="tablist" aria-label="Day" style="--n:${days.length+1};--k:${dayFilter==='all'?0:days.findIndex(d=>d.id===dayFilter)+1}"><i aria-hidden="true"></i><button type="button" role="tab" aria-selected="${dayFilter==='all'}" data-day="all">All</button>${days.map(d=>`<button type="button" role="tab" aria-selected="${dayFilter===d.id}" data-day="${esc(d.id)}" style="--dc:${dayColor(d.id)}">${esc(shortDay(d))}</button>`).join('')}</div>`;
+    return heroHTML()+bar+statusLegend()+show.map(d=>{const ms=TRIP.missions.filter(m=>m.day===d.id);const dc=dayColor(d.id);
+      return `<section class="tl-wrap" style="--dc:${dc}"><h3 class="tl-day"><span>${esc(d.label)}</span><small>${d.date?esc(fmtDate(d.date))+(d.subtitle?' · '+esc(d.subtitle):''):esc(d.subtitle||'')}</small></h3><ol class="tl">${ms.map(m=>{const st=statusOf(m),f=fieldList(m).filter(([k])=>k!=='When'),sec=isSecret(m);
+        return `<li class="tl-item" style="--i:${n++};--c:${st.c}"><div class="tl-time${m.time?'':' notime'}">${esc(m.time||'TBC')}</div><div class="tl-node">${svgI(sec?{icon:'party'}:m)}</div>
+        <details class="tl-card"><summary><span class="tl-t">${esc(mTitle(m))}</span><span class="tl-m">${!sec&&m.venue&&m.venue!==m.title?esc(m.venue):esc(m.subtitle||'')}</span><span class="tl-tags"><span class="status" style="--c:${st.c}">${st.label}</span>${m.alert&&!sec?`<span class="flag">${esc(m.alert)}</span>`:''}</span></summary>
+        <div class="tl-body">${sec?'<p class="classified">Surprise. Details are hidden for now.</p>':m.blurb?`<p class="mp-blurb">${esc(m.blurb)}</p>`:''}${missionExtras(m)}${f.length?`<dl class="kv">${f.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>`:''}${missionLinks(m)}<div class="row-actions"><button class="btn small" type="button" data-open-m="${esc(m.id)}">Show on the map</button></div></div></details></li>`}).join('')}</ol></section>`}).join('')||'<p class="empty">Nothing in the plan yet.</p>'},
   flights(){return `<div class="grid2"><div class="card"><h3>Outbound</h3><dl class="kv">${kvRows(TRIP.outbound,true)}</dl></div><div class="card"><h3>Return</h3><dl class="kv">${kvRows(TRIP.inbound,false)}</dl></div></div><p class="fine">Times are local: London for departures from London, Barcelona for departures from Barcelona. Status is never fetched live here; organisers update it by hand.</p>`},
   transport(){const t=TRIP.transport;if(!t)return '<p class="empty">No transport added yet.</p>';const o=TRIP.outbound,i=TRIP.inbound;
     const leg=(h,l,extra)=>`<div class="card"><h3>${h}</h3><dl class="kv">${[['Line',t.line],['From',l.from],['Direction',l.direction],['Get off at',l.stop]].map(([k,v])=>`<dt>${k}</dt><dd>${tbc(v)}</dd>`).join('')}</dl>${extra}</div>`;
@@ -1708,11 +1933,11 @@ const TABVIEW={
     ${t.verify?`<p class="verify"><b>Check before you go</b>${esc(t.verify)}</p>`:''}`},
   stay(){const a=TRIP.accommodation;const rows=[['Name',a.name],['Address',a.address],['Check-in',a.checkIn],['Check-out',a.checkOut],['Booking ref',a.bookingRef],['Notes',a.notes]].filter(([,v])=>has(v));
     const mh=a.mapUrl||(a.address?'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(a.address):null);
-    return `<div class="card"><h3>Base camp</h3>${rows.length?`<dl class="kv">${rows.map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>`:'<p class="empty">Accommodation not added yet.</p>'}${mh?`<div class="row-actions"><a class="btn small" href="${esc(mh)}" target="_blank" rel="noopener">Open in Maps</a></div>`:''}</div>`},
+    return `<div class="card"><h3>Accommodation</h3>${rows.length?`<dl class="kv">${rows.map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>`:'<p class="empty">Accommodation not added yet.</p>'}${mh?`<div class="row-actions"><a class="btn small" href="${esc(mh)}" target="_blank" rel="noopener">Open in Maps</a></div>`:''}</div>`},
   costs(){const rows=[],missing=[];TRIP.missions.forEach(m=>{if(isSecret(m))return;if(m.costPerPerson!=null)rows.push([`${m.code} ${m.title}`,m.costPerPerson]);else missing.push(m)});(TRIP.costs.extras||[]).forEach(e=>{if(e.perPerson!=null)rows.push([e.label,e.perPerson])});
     const total=rows.reduce((a,[,v])=>a+Number(v||0),0);
     return `<div class="card"><h3>Estimated cost per person</h3>${rows.length?`<table class="costs"><thead><tr><th>Item</th><th>Per person</th></tr></thead><tbody>${rows.map(([k,v])=>`<tr><td>${esc(k)}</td><td>${money(v)}</td></tr>`).join('')}<tr><td><b>Known total</b></td><td><b>${money(total)}</b></td></tr></tbody></table>`:'<p class="empty">No prices added yet.</p>'}
-      ${missing.length?`<p class="fine">${missing.length} mission${missing.length>1?'s':''} not priced yet${TRIP.missions.some(isSecret)?' (classified missions are left out)':''}.</p>`:''}</div>`},
+      ${missing.length?`<p class="fine">${missing.length} item${missing.length>1?'s':''} without a price${TRIP.missions.some(isSecret)?' (surprises are left out)':''}.</p>`:''}</div>`},
   squad(){return `<div class="roster">${$('#roster').innerHTML}</div><div class="row-actions"><button class="btn" type="button" id="dosCopy">Copy trip summary for WhatsApp</button></div><p class="fine">This page is read-only. Changes go in the trip config and reach everyone once the updated page is published; nothing syncs between phones on its own.</p>`},
   links(){const L=[...(TRIP.links||[]),...(TRIP.documents||[])];return `<div class="card"><h3>Links and documents</h3>${L.length?`<ul class="links">${L.map(l=>`<li><a class="btn small" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a></li>`).join('')}</ul>`:'<p class="empty">Nothing added yet. Booking confirmations, the group chat link and tickets go here.</p>'}</div>`},
   sos(){const e=TRIP.emergency,a=TRIP.accommodation;return `<div class="grid2"><div class="card sos-card"><h3>Emergency in Spain</h3><div class="big-num">${esc(e.localNumber||'112')}</div><p class="fine">Police, ambulance and fire. Free from any phone.</p><div class="row-actions copyrow"><code>${esc(e.localNumber||'112')}</code><button class="btn small" type="button" data-copy="${esc(e.localNumber||'112')}">Copy number</button></div></div>
@@ -1730,8 +1955,10 @@ function summaryText(){const o=TRIP.outbound,i=TRIP.inbound,g=TRIP.groom.name;co
   L.push('');L.push(`Squad: ${TRIP.squad.map(s=>s.name).join(', ')}`);L.push(`Emergency in Spain: ${TRIP.emergency.localNumber||'112'}`);if(TRIP.isPlaceholder)L.push('(Draft plan — nothing booked yet)');return L.join('\n')}
 function copySummary(){const t=summaryText();try{navigator.clipboard.writeText(t).then(()=>toast('Trip summary copied. Paste it into the group chat.'),()=>showText(t))}catch(e){showText(t)}}
 function showText(t){const md=$('#modal');$('#modalFig').hidden=true;const ta=$('#modalText');ta.hidden=false;ta.value=t;$('#modalDl').hidden=true;openDialog(md);ta.focus();ta.select()}
+let DL=null;
+function dataURLBlob(u){const [h,b]=u.split(',');const bin=atob(b),a=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return new Blob([a],{type:h.slice(5).split(';')[0]})}
 function showImage(url,alt,cap,fname){const md=$('#modal');$('#modalFig').hidden=false;$('#modalText').hidden=true;$('#modalImg').src=url;$('#modalImg').alt=alt;$('#modalCap').textContent=cap;
-  const dl=$('#modalDl');if(!inFrame){dl.hidden=false;dl.href=url;dl.setAttribute('download',fname)}else dl.hidden=true;openDialog(md)}
+  const dl=$('#modalDl');if(!inFrame){dl.hidden=false;dl.href=url;dl.setAttribute('download',fname);dl.onclick=null}else if(DL){dl.hidden=false;dl.removeAttribute('download');dl.href='#';dl.onclick=e=>{e.preventDefault();DL.save({filename:fname,data:dataURLBlob(url)}).then(r=>{if(r&&r.status==='saved')toast('Saved.')}).catch(()=>{})}}else dl.hidden=true;openDialog(md)}
 
 /* =====================================================================
    Keepsakes (drawn on canvas)
@@ -1798,7 +2025,7 @@ function bindInput(){
   const gEnd=()=>{if(gy===null)return;gy=null;mp.style.transition='';mp.style.transform='';if(gdy>80){buzz();closeMission()}else if(gdy<6)mp.classList.toggle('tall')};
   mp.addEventListener('pointerup',gEnd);mp.addEventListener('pointercancel',gEnd);
   $$('#tabbar button').forEach(b=>b.addEventListener('click',()=>onTab(b.dataset.tab)));
-  addEventListener('keydown',e=>{if(e.key==='Escape'){if(anyDialog()){closeDialogs();return}if(activeMission){closeMission();return}}
+  addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#editor').hidden){$('#edCancel').click();return}if(e.key==='Escape'){if(anyDialog()){closeDialogs();return}if(activeMission){closeMission();return}}
     if(anyDialog()||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;
     if(['ArrowRight','PageDown'].includes(e.key)){e.preventDefault();step(1)}else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();step(-1)}
     else if(e.key==='i'||e.key==='I')openDossier('itinerary')});
@@ -1820,12 +2047,12 @@ function bindInput(){
   bp.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'||reduced())return;const r=bp.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;bp.style.transform=`rotateY(${x*8}deg) rotateX(${-y*8}deg)`});
   bp.addEventListener('pointerleave',()=>bp.style.transform='');
   $('#bpToggle').onclick=()=>setPass(!bp.classList.contains('open'));
-  $('#bpSave').onclick=()=>showImage(makePassImage(),'Souvenir boarding pass for '+TRIP.groom.name+"'s stag weekend",inFrame?'Press and hold the image on a phone, or right-click it on a computer, to save it. A keepsake only, not a travel document.':'A keepsake only, not a travel document.','dom-boarding-pass.png');
-  $('#btnPoster').onclick=()=>showImage(makePoster(),'Trip poster: '+TRIP.groom.name+' — '+TRIP.title,inFrame?'Press and hold the image on a phone, or right-click it on a computer, to save it.':'Your trip poster.','dom-final-mission-poster.png');
+  $('#bpSave').onclick=()=>showImage(makePassImage(),'Souvenir boarding pass for '+TRIP.groom.name+"'s stag weekend",inFrame&&!DL?'Press and hold the image on a phone, or right-click it on a computer, to save it. A keepsake only, not a travel document.':'A keepsake only, not a travel document.','dom-boarding-pass.png');
+  $('#btnPoster').onclick=()=>showImage(makePoster(),'Trip poster: '+TRIP.groom.name+' — '+TRIP.title,inFrame&&!DL?'Press and hold the image on a phone, or right-click it on a computer, to save it.':'Your trip poster.','dom-final-mission-poster.png');
   $('#btnReplay').onclick=()=>goTo(0);$('#btnCopy').onclick=copySummary;
   $$('input[name="motion"]').forEach(r=>r.onchange=()=>{S.motion=r.value;store.set('motion',r.value);applyMotionClass()});
   $$('input[name="quality"]').forEach(r=>r.onchange=()=>{S.quality=r.value;store.set('quality',r.value);applyQuality()});
-  $('#setOrg').onchange=e=>{S.organiser=e.target.checked;store.set('organiser',S.organiser);bindContent();buildLabels();if(activeMission)renderMissionPanel(activeMission);nextUp();toast(S.organiser?'Organiser view on. Classified missions are visible on this device.':'Organiser view off.')}}
+  $('#setOrg').onchange=e=>{S.organiser=e.target.checked;store.set('organiser',S.organiser);bindContent();buildLabels();if(activeMission)renderMissionPanel(activeMission);nextUp();toast(S.organiser?'Surprise details are visible on this device.':'Surprise details hidden.')}}
 function applyMotionClass(){document.body.classList.toggle('rm',reduced())}
 function syncSettings(){$('#mo-'+({auto:'auto',full:'full',reduced:'red'}[S.motion])).checked=true;$('#q-'+S.quality).checked=true;$('#setOrg').checked=S.organiser;$('#setSound').checked=S.sound;
   $('#qNote').textContent=GL?`Running ${Q.tier==='full'?'full':'lite'} 3D.`:'Running the 2D cinematic mode.'}
@@ -1841,9 +2068,118 @@ function toStatic(msg){if(GL){GL=false;try{renderer.dispose();renderer.domElemen
    ===================================================================== */
 function homeIcon(){try{const c=document.createElement('canvas');c.width=c.height=180;const g=c.getContext('2d');g.fillStyle='#08090C';g.fillRect(0,0,180,180);g.strokeStyle='#FF4D4D';g.lineWidth=14;g.beginPath();g.moveTo(52,40);g.lineTo(90,40);g.arc(90,90,50,-Math.PI/2,Math.PI/2);g.lineTo(52,140);g.closePath();g.stroke();g.fillStyle='#FFB86B';g.beginPath();g.arc(92,90,10,0,7);g.fill();
   const l=document.createElement('link');l.rel='apple-touch-icon';l.href=c.toDataURL('image/png');document.head.appendChild(l)}catch(e){}}
+
+/* =====================================================================
+   Admin: edit the plan.
+   Shared mode (inside claude.ai): saved to this artifact's database, only
+   Editors/Owner can write, everyone signed in sees the update live.
+   Local mode (self-hosted copy): saved on this device; "Copy config" gives
+   the JSON to paste into the TRIP block.
+   ===================================================================== */
+const EDIT_KEYS=['groom','tagline','dates','squadSize','outbound','inbound','accommodation','transport','squad','days','missions','costs','links','documents','emergency','copy'];
+const clone=o=>JSON.parse(JSON.stringify(o));
+const ORIGINAL=clone(Object.fromEntries(EDIT_KEYS.map(k=>[k,TRIP[k]])));
+let adminMode=null,DBX=null,UID=null,draft=null,edSec='plan',edDirty=false,planMeta=null;
+function applyPlan(data,quiet){if(!data||typeof data!=='object')return;EDIT_KEYS.forEach(k=>{if(data[k]!==undefined)TRIP[k]=clone(data[k])});refreshAll();if(!quiet)toast('Plan updated.')}
+function refreshAll(){nextUp();bindContent();if(worlds.T){worlds.T.board.setRows(boardRows());worlds.T.board.play()}
+  if(worlds.B){worlds.B.buildMarkers();buildLabels();if(CH[cur]&&CH[cur].id==='missions'){worlds.B.markers.forEach(mk=>mk.g.visible=true);applyMapFilter();setLabels(true)}}
+  if(activeMission){const m=TRIP.missions.find(x=>x.id===activeMission.id);if(m)renderMissionPanel(m);else closeMission()}
+  if(!$('#dossier').hidden)showTab(dosTab)}
+function setAdmin(mode){adminMode=mode;$('#adminGroup').hidden=!mode;$('#btnEditTop').hidden=!mode;
+  $('#adminNote').textContent=mode==='shared'?'Changes save for everyone with the link. Only you and editors can see this.':mode==='local'?'This copy has no shared storage: edits are saved on this device. Use “Copy config” to make them permanent.':''}
+async function initShared(){
+  if(!window.claude||typeof claude.use!=='function'){if(!inFrame){const l=store_local_get();if(l)applyPlan(l,true);setAdmin('local')}return}
+  try{DL=await claude.use('downloads')}catch(e){}
+  let user=null;try{[DBX,user]=await Promise.all([claude.use('db'),claude.use('user')])}catch(e){}
+  if(DBX){try{DBX.doc('plan/current').onSnapshot(snap=>{if(!snap.exists)return;const d=snap.data();planMeta=d;if(snap.metadata&&snap.metadata.hasPendingWrites)return;
+      if(!$('#editor').hidden&&edDirty){toast('Someone else just saved the plan. Your edits are still here.');return}applyPlan(d.trip,true)},()=>{})}catch(e){}}
+  let can=false;try{can=user?await user.canEdit():false;UID=user?await user.id():null}catch(e){}
+  if(DBX&&can)setAdmin('shared');else if(!inFrame){const l=store_local_get();if(l)applyPlan(l,true);setAdmin('local')}}
+function store_local_get(){try{const v=localStorage.getItem('dom_plan_local');return v?JSON.parse(v):null}catch(e){return null}}
+
+/* ---- editor rendering ---- */
+const ED_SECS=[{id:'plan',l:'Plan'},{id:'days',l:'Days'},{id:'flights',l:'Flights'},{id:'stay',l:'Stay'},{id:'train',l:'Train'},{id:'squad',l:'Squad'},{id:'sos',l:'Contacts'},{id:'links',l:'Links'},{id:'words',l:'Words'}];
+const STATUS_OPTS=()=>Object.entries(STATUS).map(([v,o])=>[v,o.label]);
+const TYPE_OPTS=[['arrival','Arrival'],['hotel','Accommodation'],['restaurant','Food'],['nightlife','Drinks / night'],['beach','Outdoors / beach'],['activity','Activity'],['return','Departure']];
+const ICON_OPTS=Object.keys(ICON).map(k=>[k,k[0].toUpperCase()+k.slice(1)]);
+const DIST_OPTS=Object.keys(DISTRICT).map(k=>[k,{campnou:'Camp Nou',olimpic:'Port Olímpic',montjuic:'Montjuïc',city:'Somewhere in the city'}[k]||k[0].toUpperCase()+k.slice(1)]);
+function getP(o,path){return path.split('.').reduce((a,k)=>a==null?a:a[k],o)}
+function setP(o,path,v){const ks=path.split('.');let a=o;for(let i=0;i<ks.length-1;i++){if(a[ks[i]]==null)a[ks[i]]=/^\d+$/.test(ks[i+1])?[]:{};a=a[ks[i]]}a[ks[ks.length-1]]=v}
+let fid=0;
+function F(path,label,type='text',opts){const id='ed'+(++fid),v=getP(draft,path);const val=v==null?'':v;
+  if(type==='select')return `<label class="f" for="${id}"><span>${label}</span><select id="${id}" data-p="${path}">${(opts||[]).map(([k,l])=>`<option value="${esc(k)}"${String(val)===String(k)?' selected':''}>${esc(l)}</option>`).join('')}</select></label>`;
+  if(type==='check')return `<label class="f fc" for="${id}"><input type="checkbox" id="${id}" data-p="${path}" data-t="check"${v?' checked':''}><span>${label}</span></label>`;
+  if(type==='area')return `<label class="f" for="${id}"><span>${label}</span><textarea id="${id}" data-p="${path}" rows="3">${esc(val)}</textarea></label>`;
+  if(type==='lines')return `<label class="f" for="${id}"><span>${label}</span><textarea id="${id}" data-p="${path}" data-t="lines" rows="3">${esc((v||[]).join('\n'))}</textarea></label>`;
+  if(type==='optlines')return `<label class="f" for="${id}"><span>${label}</span><textarea id="${id}" data-p="${path}" data-t="opts" rows="4" placeholder="Name | address | note | map link">${esc((v||[]).map(o=>[o.name,o.address,o.note,o.mapUrl].map(x=>x||'').join(' | ').replace(/( \| )+$/,'')).join('\n'))}</textarea></label>`;
+  return `<label class="f" for="${id}"><span>${label}</span><input id="${id}" type="${type}" data-p="${path}"${type==='number'?' data-t="num" inputmode="decimal"':''} value="${esc(val)}"></label>`}
+const G=(t,inner,cls='')=>`<section class="ed-g ${cls}"><h3>${t}</h3><div class="ed-grid">${inner}</div></section>`;
+function rowTools(list,i){return `<div class="ed-tools"><button type="button" data-act="up" data-l="${list}" data-i="${i}" aria-label="Move up">↑</button><button type="button" data-act="down" data-l="${list}" data-i="${i}" aria-label="Move down">↓</button><button type="button" data-act="dup" data-l="${list}" data-i="${i}">Duplicate</button><button type="button" class="del" data-act="del" data-l="${list}" data-i="${i}">Delete</button></div>`}
+const ED={
+  plan(){const dayOpts=draft.days.map(d=>[d.id,d.label]);
+    return draft.days.map(d=>{const items=draft.missions.map((m,i)=>[m,i]).filter(([m])=>m.day===d.id);
+      return `<div class="ed-day" style="--dc:${dayColor(d.id)}"><h3>${esc(d.label)}<small>${items.length} item${items.length===1?'':'s'}</small></h3>${items.map(([m,i])=>`<details class="ed-item" data-i="${i}"${m._new?' open':''}><summary><svg class="ico" viewBox="0 0 24 24">${iconOf(m)}</svg><span class="ed-it"><b>${esc(m.title||'Untitled')}</b><small>${esc(m.time||'Time TBC')} · ${esc(statusOf(m).label)}</small></span><i class="dot" style="--c:${statusOf(m).c}"></i></summary>
+        <div class="ed-grid">${F(`missions.${i}.title`,'Name')}${F(`missions.${i}.subtitle`,'Subtitle')}${F(`missions.${i}.day`,'Day','select',dayOpts)}${F(`missions.${i}.time`,'Time (Barcelona)','time')}
+        ${F(`missions.${i}.status`,'Status','select',STATUS_OPTS())}${F(`missions.${i}.icon`,'Icon','select',ICON_OPTS)}${F(`missions.${i}.venue`,'Venue')}${F(`missions.${i}.address`,'Address')}
+        ${F(`missions.${i}.mapUrl`,'Map link','url')}${F(`missions.${i}.meetingPoint`,'Meeting point')}${F(`missions.${i}.duration`,'Duration')}${F(`missions.${i}.costPerPerson`,'Cost per person (€)','number')}
+        ${F(`missions.${i}.bookingRef`,'Booking ref')}${F(`missions.${i}.dressCode`,'Dress code')}${F(`missions.${i}.organiser`,'Organiser')}${F(`missions.${i}.blurb`,'Short description','area')}
+        ${F(`missions.${i}.alert`,'Heads up (red)','area')}${F(`missions.${i}.verify`,'Check before you go (amber)','area')}${F(`missions.${i}.instructions`,'Instructions','area')}${F(`missions.${i}.notes`,'Notes','area')}
+        ${F(`missions.${i}.options`,'Venue shortlist (one per line)','optlines')}${F(`missions.${i}.type`,'Map scene','select',TYPE_OPTS)}${F(`missions.${i}.district`,'Map area','select',DIST_OPTS)}${F(`missions.${i}.surprise`,'Surprise (hide details from the squad)','check')}</div>${rowTools('missions',i)}</details>`).join('')}
+        <button type="button" class="ed-add" data-act="add-m" data-day="${esc(d.id)}">+ Add to ${esc(d.label)}</button></div>`}).join('')},
+  days(){return draft.days.map((d,i)=>G(esc(d.label||'Day'),F(`days.${i}.label`,'Name')+F(`days.${i}.subtitle`,'Subtitle')+F(`days.${i}.date`,'Date','date'),'')+rowTools('days',i)).join('')+`<button type="button" class="ed-add" data-act="add-day">+ Add a day</button>`+G('Whole trip',F('dates.start','First day','date')+F('dates.end','Last day','date')+F('dates.label','Shown when no dates','text'))},
+  flights(){const fl=(k,t)=>G(t,F(`${k}.from.airport`,'From airport')+F(`${k}.from.code`,'From code')+F(`${k}.to.airport`,'To airport')+F(`${k}.to.code`,'To code')+F(`${k}.dayLabel`,'Day')+F(`${k}.date`,'Date','date')+F(`${k}.departs`,'Departs (local)','time')+F(`${k}.arrives`,'Arrives (local)','time')+F(`${k}.airline`,'Airline')+F(`${k}.flightNumber`,'Flight number')+F(`${k}.terminal`,'Terminal')+F(`${k}.gate`,'Gate')+F(`${k}.boarding`,'Boarding','time')+F(`${k}.meetingPoint`,'Meeting point')+F(`${k}.meetingTime`,'Meet at','time')+F(`${k}.status`,'Status (typed by hand)')+F(`${k}.bookingRef`,'Booking ref'));
+    return fl('outbound','Outbound')+fl('inbound','Return')},
+  stay(){return G('Accommodation',F('accommodation.name','Name')+F('accommodation.address','Address')+F('accommodation.mapUrl','Map link','url')+F('accommodation.checkIn','Check-in')+F('accommodation.checkOut','Check-out')+F('accommodation.bookingRef','Booking ref')+F('accommodation.notes','Notes','area'))},
+  train(){return G('Airport train',F('transport.line','Line')+F('transport.alert','Big warning')+F('transport.outbound.from','Into the city: from')+F('transport.outbound.direction','Into the city: direction')+F('transport.outbound.stop','Into the city: get off at')+F('transport.inbound.from','To the airport: from')+F('transport.inbound.direction','To the airport: direction')+F('transport.inbound.stop','To the airport: get off at')+F('transport.facts','Good to know (one per line)','lines')+F('transport.verify','Check before you go','area'))},
+  squad(){return G('Squad size',F('squadSize','Number of people','number'))+draft.squad.map((p,i)=>G(esc(p.name||'New person'),F(`squad.${i}.name`,'Name')+F(`squad.${i}.role`,'Role')+F(`squad.${i}.nickname`,'Nickname')+F(`squad.${i}.responsibility`,'Responsibility')+F(`squad.${i}.photo`,'Photo link','url')+F(`squad.${i}.isGroom`,'The groom','check'))+rowTools('squad',i)).join('')+`<button type="button" class="ed-add" data-act="add-p">+ Add a person</button>`},
+  sos(){return G('Emergency',F('emergency.localNumber','Emergency number')+F('emergency.notes','Notes','area'))+(draft.emergency.contacts||[]).map((c,i)=>G(esc(c.name||'New contact'),F(`emergency.contacts.${i}.name`,'Name')+F(`emergency.contacts.${i}.role`,'Role')+F(`emergency.contacts.${i}.phone`,'Phone','tel'))+rowTools('emergency.contacts',i)).join('')+`<button type="button" class="ed-add" data-act="add-c">+ Add a contact</button>`},
+  links(){return (draft.links||[]).map((l,i)=>G(esc(l.label||'New link'),F(`links.${i}.label`,'Label')+F(`links.${i}.url`,'Link','url'))+rowTools('links',i)).join('')+`<button type="button" class="ed-add" data-act="add-l">+ Add a link</button>`+G('Costs',F('costs.currency','Currency code'))},
+  words(){return G('Headlines',F('groom.name','Groom')+F('tagline','Tagline')+F('copy.arrival.0','Arrival line 1')+F('copy.arrival.1','Arrival line 2')+F('copy.finale.0','Finale line 1')+F('copy.finale.1','Finale line 2')+F('copy.finale.2','Finale line 3')+F('copy.passSeat','Boarding pass seat joke'))+
+    `<section class="ed-g"><h3>Backup</h3><div class="row-actions"><button type="button" class="btn small" data-act="export">Copy config</button><button type="button" class="btn small" data-act="reset">Reset to original plan</button></div><p class="set-note">${planMeta&&planMeta.updatedAt?'Last saved '+esc(new Date(planMeta.updatedAt).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'})):'Not edited yet.'}</p></section>`}
+};
+function openEditor(){if(!adminMode)return;draft=clone(Object.fromEntries(EDIT_KEYS.map(k=>[k,TRIP[k]])));edDirty=false;closeDialogs(true);
+  $('#edMode').textContent=adminMode==='shared'?'Saves for everyone':'Saves on this device';$('#editor').hidden=false;renderEditor();buzz()}
+function renderEditor(){fid=0;$('#edTabs').innerHTML=ED_SECS.map(x=>`<button type="button" data-sec="${x.id}" aria-current="${x.id===edSec?'page':'false'}">${x.l}</button>`).join('');
+  $$('#edTabs button').forEach(b=>b.onclick=()=>{edSec=b.dataset.sec;renderEditor();$('#edBody').scrollTop=0;b.scrollIntoView({inline:'center',block:'nearest'})});
+  const body=$('#edBody');const open=$$('.ed-item[open]',body).map(d=>d.dataset.i);body.innerHTML=ED[edSec]();open.forEach(i=>{const d=$(`.ed-item[data-i="${i}"]`,body);if(d)d.open=true});
+  draft.missions.forEach(m=>delete m._new)}
+function readField(el){const p=el.dataset.p,t=el.dataset.t;let v;
+  if(t==='check')v=el.checked;else if(t==='num')v=el.value===''?null:Number(el.value);else if(t==='lines')v=el.value.split('\n').map(x=>x.trim()).filter(Boolean);
+  else if(t==='opts')v=el.value.split('\n').map(x=>x.split('|').map(y=>y.trim())).filter(a=>a[0]).map(([name,address,note,mapUrl])=>({name,address:address||null,note:note||null,mapUrl:mapUrl||('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(name+' '+(address||'Barcelona')))}));
+  else v=el.value.trim()===''?null:el.value;setP(draft,p,v);edDirty=true}
+function edAct(b){const a=b.dataset.act,l=b.dataset.l,i=+b.dataset.i;const arr=l?getP(draft,l):null;
+  if(a==='up'&&i>0){[arr[i-1],arr[i]]=[arr[i],arr[i-1]]}
+  else if(a==='down'&&i<arr.length-1){[arr[i+1],arr[i]]=[arr[i],arr[i+1]]}
+  else if(a==='dup'){const c=clone(arr[i]);if(c.id)c.id=(c.id+'-'+Date.now().toString(36));arr.splice(i+1,0,c)}
+  else if(a==='del'){if(b.dataset.armed!=='1'){b.dataset.armed='1';b.textContent='Tap again to delete';setTimeout(()=>{if(b.isConnected){b.dataset.armed='';b.textContent='Delete'}},2500);return}
+    if(l==='days'){const id=arr[i].id;if(draft.missions.some(m=>m.day===id)){toast('Move or delete this day’s items first.');return}}arr.splice(i,1)}
+  else if(a==='add-m')draft.missions.push({id:'m'+Date.now().toString(36),title:'New item',day:b.dataset.day,time:null,status:'tentative',type:'activity',icon:'pin',district:'city',_new:true});
+  else if(a==='add-day')draft.days.push({id:'d'+Date.now().toString(36),label:'New day',subtitle:null,date:null});
+  else if(a==='add-p')draft.squad.push({name:'',role:null});
+  else if(a==='add-c'){draft.emergency.contacts=draft.emergency.contacts||[];draft.emergency.contacts.push({name:'',role:null,phone:''})}
+  else if(a==='add-l'){draft.links=draft.links||[];draft.links.push({label:'',url:''})}
+  else if(a==='export'){copyText(JSON.stringify(Object.fromEntries(EDIT_KEYS.map(k=>[k,draft[k]])),null,2));return}
+  else if(a==='reset'){if(b.dataset.armed!=='1'){b.dataset.armed='1';b.textContent='Tap again to reset';return}draft=clone(ORIGINAL);toast('Original plan loaded. Press Save to keep it.')}
+  edDirty=true;buzz();renderEditor()}
+function normaliseDraft(d){const order=d.days.map(x=>x.id);d.missions=d.missions.map((m,i)=>({m,i})).sort((a,b)=>(order.indexOf(a.m.day)-order.indexOf(b.m.day))||(a.i-b.i)).map(x=>x.m);
+  d.missions.forEach((m,i)=>{delete m._new;m.code=String(i+1).padStart(2,'0');if(!m.id)m.id='m'+i;if(m.costPerPerson!=null&&isNaN(m.costPerPerson))m.costPerPerson=null});
+  d.squad=d.squad.filter(p=>p.name);if(d.emergency&&d.emergency.contacts)d.emergency.contacts=d.emergency.contacts.filter(c=>c.name||c.phone);d.links=(d.links||[]).filter(l=>l.url);return d}
+async function saveEditor(){const btn=$('#edSave');const data=normaliseDraft(clone(draft));btn.disabled=true;btn.textContent='Saving…';
+  try{if(adminMode==='shared'){await DBX.doc('plan/current').set({trip:data,updatedAt:new Date().toISOString(),by:UID||null});planMeta={updatedAt:new Date().toISOString()}}
+    else{try{localStorage.setItem('dom_plan_local',JSON.stringify(data))}catch(e){}}
+    applyPlan(data,true);edDirty=false;$('#editor').hidden=true;toast(adminMode==='shared'?'Saved. Everyone sees the new plan.':'Saved on this device.');buzz(14);if(!$('#dossier').hidden)showTab(dosTab)}
+  catch(e){toast(e&&e.code==='invalid_argument'?'You don’t have permission to change the plan.':e&&e.code==='quota_exceeded'?'Storage is full. Remove some items and try again.':'Couldn’t save. Check your connection and try again.')}
+  finally{btn.disabled=false;btn.textContent='Save'}}
+function bindEditor(){const ed=$('#editor');
+  ed.addEventListener('input',e=>{if(e.target.dataset.p)readField(e.target)});
+  ed.addEventListener('change',e=>{if(e.target.dataset.p){readField(e.target);if(e.target.tagName==='SELECT'&&/\.(day|status|icon)$/.test(e.target.dataset.p))renderEditor()}});
+  ed.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(b)edAct(b)});
+  $('#edCancel').onclick=()=>{const b=$('#edCancel');if(edDirty&&b.dataset.armed!=='1'){b.dataset.armed='1';b.textContent='Discard?';setTimeout(()=>{b.dataset.armed='';b.textContent='Cancel'},2500);return}b.dataset.armed='';b.textContent='Cancel';ed.hidden=true;edDirty=false};
+  $('#edSave').onclick=saveEditor;$('#btnAdmin').onclick=openEditor;$('#btnEditTop').onclick=openEditor}
+
 function stepState(id,s){$('#'+id).className=s}
 async function boot(){
-  homeIcon();nextUp();bindContent();buildRail();bindInput();updateSoundUI();applyMotionClass();syncTabs();
+  homeIcon();nextUp();bindContent();buildRail();bindInput();bindEditor();updateSoundUI();applyMotionClass();syncTabs();initShared();
   stepState('ls1','busy');
   try{await Promise.race([document.fonts.ready,new Promise(r=>setTimeout(r,3500))]);await Promise.race([Promise.all(['900 40px "Big Shoulders Display"','700 20px "Space Grotesk"'].map(f=>document.fonts.load(f))),new Promise(r=>setTimeout(r,2000))])}catch(e){}
   stepState('ls1','ok');stepState('ls2','busy');

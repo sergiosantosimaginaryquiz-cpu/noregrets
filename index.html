@@ -365,6 +365,26 @@ body.m-open .hub-head{opacity:0;pointer-events:none}
 .mpanel .grab{display:block;width:100%;height:26px;margin:-12px 0 4px;border:0;background:none;cursor:grab;touch-action:none;position:relative}
 .mpanel .grab::before{content:"";position:absolute;left:50%;top:10px;width:42px;height:5px;margin-left:-21px;border-radius:3px;background:rgba(245,245,242,.3)}
 .mpanel{touch-action:pan-y}
+.alert,.verify{margin:0 0 14px;padding:11px 13px;border-radius:12px;font-size:13.5px;line-height:1.45}
+.alert{background:rgba(255,77,77,.1);border:1px solid rgba(255,77,77,.45);color:var(--paper)}
+.alert b,.verify b{display:block;margin-bottom:3px;font:700 10px/1.2 var(--f-head);letter-spacing:.22em;text-transform:uppercase}
+.alert b{color:var(--coral)}
+.alert.big{font:800 26px/1.05 var(--f-cond);text-transform:uppercase;letter-spacing:.03em}
+.verify{background:rgba(255,184,107,.07);border:1px dashed rgba(255,184,107,.5);color:rgba(245,245,242,.85)}
+.verify b{color:var(--amber)}
+.opts{margin:0 0 14px}
+.opt{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--hair)}
+.opt>div{min-width:0}
+.opt strong{display:block;font:800 19px/1.1 var(--f-cond);text-transform:uppercase;letter-spacing:.04em}
+.opt span{display:block;font-size:12.5px;color:var(--mute)}
+.opt em{display:block;margin-top:2px;font-style:normal;font-size:12px;color:var(--amber)}
+.train{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;margin-top:8px;padding:11px 13px;border-radius:14px;border:1px solid rgba(255,77,77,.4);background:rgba(255,77,77,.08);text-align:left;cursor:pointer}
+.train b{display:block;font:600 9.5px/1.2 var(--f-head);letter-spacing:.2em;text-transform:uppercase;color:var(--steel);margin-bottom:3px}
+.train span{font:600 13px/1.3 var(--f-head)}
+.train i{flex:0 0 auto;font:800 15px/1 var(--f-cond);font-style:normal;text-transform:uppercase;letter-spacing:.04em;color:var(--coral)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin:0 0 16px;font:500 12px/1 var(--f-head);color:var(--mute)}
+.legend span{display:flex;align-items:center;gap:6px}
+.facts{margin:0;padding-left:18px;display:grid;gap:6px;font-size:14px}
 .nextcard{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;margin:0 0 18px;padding:14px 16px;border-radius:16px;border:1px solid rgba(255,184,107,.4);background:linear-gradient(135deg,rgba(255,184,107,.12),rgba(255,184,107,.02));text-align:left;cursor:pointer}
 .nextcard b{display:block;font:600 10px/1.2 var(--f-head);letter-spacing:.24em;text-transform:uppercase;color:var(--amber)}
 .nextcard strong{display:block;margin-top:4px;font:800 24px/1 var(--f-cond);text-transform:uppercase;letter-spacing:.03em}
@@ -631,7 +651,7 @@ body.rm .bp,body.rm #grade::after{animation:none}
 
   <section class="ov" data-ch="takeoff" aria-labelledby="to-title">
     <div class="caption">
-      <p class="eyebrow">Runway · London</p>
+      <p class="eyebrow" id="roRunway">Runway · London</p>
       <p class="cap-big" id="to-title">Cleared for takeoff</p>
       <div class="readouts"><div>Ground speed<b id="roSpeed">0 kt</b></div><div>Altitude<b id="roAlt">0 ft</b></div></div>
       <div class="cues" aria-hidden="true"><span id="cue1">V1</span><span id="cue2">Rotate</span><span id="cue3">Positive climb</span></div>
@@ -648,7 +668,7 @@ body.rm .bp,body.rm #grade::after{animation:none}
         <path class="done" id="routeDone" d="M20 22 C 130 0, 250 30, 338 74" pathLength="100" stroke-dasharray="0 100"/>
         <circle cx="20" cy="22" r="4" fill="#F5F5F2"/><circle cx="338" cy="74" r="4" fill="#FFB86B"/>
         <circle id="routePlane" r="6" fill="#FFB86B" cx="20" cy="22"/>
-        <text x="20" y="44" text-anchor="start">LON</text><text x="20" y="57" class="sub">London</text>
+        <text x="20" y="44" text-anchor="start" id="rtFrom">LON</text><text x="20" y="57" class="sub" id="rtFromCity">London</text>
         <text x="338" y="58" text-anchor="end">BCN</text><text x="300" y="90" class="sub" text-anchor="middle">Barcelona · ≈1,150 km</text>
       </svg>
       <p class="eyebrow upnext-h" style="margin-bottom:8px">Coming up</p>
@@ -770,90 +790,142 @@ body.rm .bp,body.rm #grade::after{animation:none}
      • Leave anything unknown as null. Empty fields are hidden, and core
        flight fields show "TBC" instead of a guess.
      • Times are local times ("HH:MM"). Dates are "YYYY-MM-DD".
-     • Mission status: "confirmed" | "tentative" | "to-organise".
+     • Mission status: "confirmed" | "planned" | "requested" | "tentative" | "to-organise".
      • Mission district (places the beacon on the map): airport, eixample,
        sagrada, gracia, gothic, born, barceloneta, beach, olimpic, poblenou,
-       port, montjuic, city.
+       port, montjuic, campnou, city.
      • Mission type (sets the scene mood): arrival, hotel, restaurant, beach,
        nightlife, activity, return.
      • Set isPlaceholder to false once the real plan is in.
      ===================================================================== -->
 <script>
 const TRIP = {
-  isPlaceholder: true,
+  // Real plan from the organisers' notes (Thursday to Sunday).
+  // Calendar dates are not in the plan yet: add them to dates.start / dates.end and each day's date.
+  isPlaceholder: false,
   groom: { name: 'Dom' },
   title: 'The Final Mission',
   tagline: 'One groom. One squad. One weekend. Barcelona.',
-  dates: { start: null, end: null },
+  dates: { start: null, end: null, label: 'Thursday – Sunday' },
+  squadSize: 5,               // from the Sensi Tapas booking (table for 5)
   timezones: { origin: 'Europe/London', destination: 'Europe/Madrid' },
 
   outbound: {
-    from: { city: 'London', airport: null, code: 'LON' }, // 'LON' = all London airports. Replace with LHR, LGW, STN, LTN or LCY.
-    to:   { city: 'Barcelona', airport: null, code: null }, // e.g. 'BCN'
-    airline: null, flightNumber: null, date: null,
-    departs: null, arrives: null, terminal: null, gate: null, boarding: null,
+    from: { city: 'London', airport: 'London Gatwick', code: 'LGW' },
+    to:   { city: 'Barcelona', airport: 'Barcelona–El Prat', code: 'BCN' },
+    airline: null, flightNumber: null, date: null, dayLabel: 'Thursday',
+    departs: '06:55', arrives: '09:55', terminal: null, gate: null, boarding: null,
     meetingPoint: null, meetingTime: null,
     status: null,            // only fill in by hand, e.g. 'ON TIME'
     bookingRef: null
   },
   inbound: {
-    from: { city: 'Barcelona', airport: null, code: null },
-    to:   { city: 'London', airport: null, code: null },
-    airline: null, flightNumber: null, date: null,
-    departs: null, arrives: null, terminal: null, gate: null, boarding: null,
+    from: { city: 'Barcelona', airport: 'Barcelona–El Prat', code: 'BCN' },
+    to:   { city: 'London', airport: 'London Gatwick', code: 'LGW' },
+    airline: null, flightNumber: null, date: null, dayLabel: 'Sunday',
+    departs: '21:45', arrives: '23:10', terminal: null, gate: null, boarding: null,
     meetingPoint: null, meetingTime: null, status: null, bookingRef: null
   },
 
-  accommodation: { name: null, address: null, mapUrl: null, checkIn: null, checkOut: null, bookingRef: null, notes: null },
+  accommodation: { name: null, address: null, mapUrl: null, checkIn: 'Thursday 15:00', checkOut: 'Sunday 11:00', bookingRef: null, notes: null },
 
-  // Add the crew. photo: path or URL to an image you own (optional).
+  // Getting between the airport and the city. From the handwritten notes.
+  transport: {
+    line: 'Rodalies de Catalunya · R2 Nord (R2N)',
+    alert: 'R2 Nord, NOT R2.',
+    outbound: { from: 'Barcelona Airport (Aeroport) station', direction: 'Towards Sant Celoni / Maçanet-Massanes', stop: null },
+    inbound:  { from: null, direction: 'Towards Aeroport (R2N)', stop: 'Aeroport' },
+    facts: [
+      'R2 Nord is the only R2 branch that runs to and from the airport station.',
+      'In the city it calls at Barcelona Sants, Passeig de Gràcia and El Clot-Aragó.',
+      'Airport trains run about every 30 minutes.'
+    ],
+    verify: 'The notes are handwritten. Check the exact stations and any extra steps before you travel.'
+  },
+
   squad: [
     { name: 'Dom', role: 'The Groom', nickname: null, responsibility: null, photo: null, isGroom: true }
   ],
 
   days: [
-    { id: 'd1', label: 'Day 1', date: null },
-    { id: 'd2', label: 'Day 2', date: null },
-    { id: 'd3', label: 'Day 3', date: null }
+    { id: 'thu', label: 'Thursday', subtitle: 'Arrival day', date: null },
+    { id: 'fri', label: 'Friday', subtitle: 'Sagrada · water · pizza · Eixample', date: null },
+    { id: 'sat', label: 'Saturday', subtitle: 'Open day · football', date: null },
+    { id: 'sun', label: 'Sunday', subtitle: 'Extraction', date: null }
   ],
 
-  // EXAMPLE MISSIONS — a suggested shape only. Nothing here is booked.
+  /* Mission fields: title, subtitle, type (scene mood), district (beacon), day, time,
+     venue, address, mapUrl, status, costPerPerson, instructions, notes,
+     alert (bold callout), verify ("check before you go"), options (shortlist of venues). */
   missions: [
-    { id: 'touchdown', code: '01', title: 'Touchdown', subtitle: 'Arrival', type: 'arrival', district: 'airport', day: 'd1', time: null, duration: null,
-      venue: null, meetingPoint: null, address: null, mapUrl: null, status: 'to-organise', bookingRef: null, costPerPerson: null,
-      dressCode: null, bring: [], instructions: null, organiser: null, notes: null, links: [], image: null, qr: null,
-      surprise: false, example: true, blurb: 'Land, regroup at arrivals and head into the city together.' },
-    { id: 'basecamp', code: '02', title: 'Base Camp', subtitle: 'Check-in', type: 'hotel', district: 'eixample', day: 'd1', time: null, duration: null,
-      venue: null, meetingPoint: null, address: null, mapUrl: null, status: 'to-organise', bookingRef: null, costPerPerson: null,
-      dressCode: null, bring: [], instructions: null, organiser: null, notes: null, links: [], image: null, qr: null,
-      surprise: false, example: true, blurb: 'Drop the bags, claim the beds, regroup in the lobby.' },
-    { id: 'fuel', code: '03', title: 'Fuel Stop', subtitle: 'The first meal', type: 'restaurant', district: 'gothic', day: 'd1', time: null, duration: null,
-      venue: null, meetingPoint: null, address: null, mapUrl: null, status: 'to-organise', bookingRef: null, costPerPerson: null,
-      dressCode: null, bring: [], instructions: null, organiser: null, notes: null, links: [], image: null, qr: null,
-      surprise: false, example: true, blurb: 'A long lunch to set the tone for the weekend.' },
-    { id: 'nightops', code: '04', title: 'Night Ops', subtitle: 'The nightlife mission', type: 'nightlife', district: 'olimpic', day: 'd1', time: null, duration: null,
-      venue: null, meetingPoint: null, address: null, mapUrl: null, status: 'to-organise', bookingRef: null, costPerPerson: null,
-      dressCode: null, bring: [], instructions: null, organiser: null, notes: null, links: [], image: null, qr: null,
-      surprise: false, example: true, blurb: 'The first night out. Pace yourselves. Nobody will.' },
-    { id: 'sunburn', code: '05', title: 'Operation Sunburn', subtitle: 'The daytime activity', type: 'beach', district: 'beach', day: 'd2', time: null, duration: null,
-      venue: null, meetingPoint: null, address: null, mapUrl: null, status: 'to-organise', bookingRef: null, costPerPerson: null,
-      dressCode: null, bring: [], instructions: null, organiser: null, notes: null, links: [], image: null, qr: null,
-      surprise: false, example: true, blurb: 'Sun, sea and recovery by the Mediterranean.' },
-    { id: 'longtable', code: '06', title: 'The Long Table', subtitle: 'Dinner', type: 'restaurant', district: 'gracia', day: 'd2', time: null, duration: null,
-      venue: null, meetingPoint: null, address: null, mapUrl: null, status: 'to-organise', bookingRef: null, costPerPerson: null,
-      dressCode: null, bring: [], instructions: null, organiser: null, notes: null, links: [], image: null, qr: null,
-      surprise: false, example: true, blurb: 'The big dinner. Speeches optional, toasts mandatory.' },
-    { id: 'classified', code: '07', title: 'The Final Challenge', subtitle: 'Classified', type: 'activity', district: 'city', day: 'd2', time: null, duration: null,
-      venue: null, meetingPoint: null, address: null, mapUrl: null, status: 'to-organise', bookingRef: null, costPerPerson: null,
-      dressCode: null, bring: [], instructions: null, organiser: null, notes: null, links: [], image: null, qr: null,
-      surprise: true, example: true, blurb: 'Something the groom does not get to know about yet.' },
-    { id: 'extraction', code: '08', title: 'Extraction', subtitle: 'The return journey', type: 'return', district: 'airport', day: 'd3', time: null, duration: null,
-      venue: null, meetingPoint: null, address: null, mapUrl: null, status: 'to-organise', bookingRef: null, costPerPerson: null,
-      dressCode: null, bring: [], instructions: null, organiser: null, notes: null, links: [], image: null, qr: null,
-      surprise: false, example: true, blurb: 'Pack up, check out, fly home with the stories.' }
+    // ---------------- THURSDAY ----------------
+    { id: 'touchdown', code: '01', title: 'Touchdown', subtitle: 'Gatwick to Barcelona', type: 'arrival', district: 'airport', day: 'thu', time: '09:55',
+      venue: 'Barcelona–El Prat Airport', status: 'planned',
+      instructions: 'Wheels down 09:55. Regroup at arrivals, then take the Rodalies R2 Nord (R2N) train into the city, towards Sant Celoni / Maçanet-Massanes.',
+      alert: 'R2 Nord, NOT R2.', verify: 'Check the exact station to get off at before you travel.',
+      notes: 'Flight leaves London Gatwick at 06:55 UK time.', blurb: 'Early start, Barcelona by breakfast.' },
+    { id: 'gothic', code: '02', title: 'Old Town Recon', subtitle: 'Explore the Gothic Quarter', type: 'activity', district: 'gothic', day: 'thu', time: null,
+      venue: 'Barri Gòtic', mapUrl: 'https://www.google.com/maps/search/?api=1&query=Barri+G%C3%B2tic+Barcelona', status: 'planned',
+      blurb: 'Wander the medieval lanes of the Gothic Quarter with the bags dropped or in tow.' },
+    { id: 'born', code: '03', title: 'El Born Briefing', subtitle: 'Drinks in El Born', type: 'nightlife', district: 'born', day: 'thu', time: null,
+      venue: 'El Born', mapUrl: 'https://www.google.com/maps/search/?api=1&query=El+Born+Barcelona', status: 'planned',
+      blurb: 'First drinks of the weekend in El Born, next door to the Gothic Quarter.' },
+    { id: 'checkin', code: '04', title: 'Base Camp', subtitle: 'Check-in', type: 'hotel', district: 'city', day: 'thu', time: '15:00',
+      venue: null, status: 'planned', notes: 'Accommodation name and address to be added.',
+      blurb: 'Check-in opens at 15:00. Drop the bags, regroup, get ready for dinner.' },
+    { id: 'sensi', code: '05', title: 'Sensi Tapas', subtitle: 'Dinner', type: 'restaurant', district: 'gothic', day: 'thu', time: '20:00',
+      venue: 'Sensi Tapas', address: 'Carrer Ample, 26, 08002 Barcelona', mapUrl: 'https://www.google.com/maps/search/?api=1&query=Sensi+Tapas+Carrer+Ample+26+Barcelona',
+      status: 'requested', notes: 'Reservation requested for 20:00, table for 5.',
+      verify: 'Sensi runs more than one restaurant in the old town. Match the address to the booking confirmation.',
+      blurb: 'Tapas in the Gothic Quarter. First proper meal of the mission.' },
+    { id: 'stravinsky', code: '06', title: 'Dr. Stravinsky', subtitle: 'Cocktails', type: 'nightlife', district: 'born', day: 'thu', time: null,
+      venue: 'Dr. Stravinsky', address: 'Carrer dels Mirallers, 5, 08003 Barcelona', mapUrl: 'https://www.google.com/maps/search/?api=1&query=Dr+Stravinsky+Carrer+dels+Mirallers+5+Barcelona',
+      status: 'planned', notes: 'Opens 19:00 most nights, until about 2:30 on Thursdays.',
+      blurb: 'One of the city’s best-known cocktail bars, a few minutes’ walk from dinner.' },
+    { id: 'out', code: '07', title: 'Night Ops', subtitle: 'Out', type: 'nightlife', district: 'olimpic', day: 'thu', time: null,
+      status: 'tentative', notes: 'Where exactly is decided on the night.',
+      blurb: 'And then… out.' },
+
+    // ---------------- FRIDAY ----------------
+    { id: 'sagrada', code: '08', title: 'Sagrada Família', subtitle: 'The landmark', type: 'activity', district: 'sagrada', day: 'fri', time: null,
+      venue: 'Basílica de la Sagrada Família', mapUrl: 'https://www.google.com/maps/search/?api=1&query=Sagrada+Fam%C3%ADlia+Barcelona', status: 'planned',
+      notes: 'Ticket time to be confirmed.', blurb: 'Gaudí’s masterpiece. Mandatory squad photo.' },
+    { id: 'water', code: '09', title: 'Operation Water', subtitle: 'Drive / boat activity', type: 'beach', district: 'port', day: 'fri', time: null,
+      status: 'tentative', alert: 'Weather dependent.', notes: 'Activity and provider to be confirmed.',
+      blurb: 'A drive or boat activity on the water, if the weather plays along.' },
+    { id: 'sartoria', code: '10', title: 'Sartoria Panatieri', subtitle: 'Dinner', type: 'restaurant', district: 'eixample', day: 'fri', time: '19:45',
+      venue: 'Sartoria Panatieri', address: 'Carrer de Provença, 330, 08037 Barcelona', mapUrl: 'https://www.google.com/maps/search/?api=1&query=Sartoria+Panatieri+Proven%C3%A7a+330+Barcelona',
+      status: 'to-organise', alert: 'Can be booked, but needs €10 each.', notes: '€10 per person to hold the booking.',
+      blurb: 'Neapolitan-style pizza from one of Europe’s top-ranked pizzerias.' },
+    { id: 'eixample', code: '11', title: 'Eixample Crawl', subtitle: 'Drinks', type: 'nightlife', district: 'eixample', day: 'fri', time: null,
+      status: 'tentative', blurb: 'After-dinner drinks. Suggested bars below.',
+      options: [
+        { name: 'Space Cowboy', address: 'Carrer dels Carders, 31, 08003 Barcelona', note: 'Actually in the old town (Sant Pere / El Born), not the Eixample.', mapUrl: 'https://www.google.com/maps/search/?api=1&query=Space+Cowboy+Carrer+dels+Carders+31+Barcelona' },
+        { name: 'Steam City', address: null, note: 'Couldn’t confirm this one online. Check the name.', mapUrl: 'https://www.google.com/maps/search/?api=1&query=Steam+City+bar+Barcelona' },
+        { name: 'Bobby’s Free', address: 'Carrer de Pau Claris, 85, 08010 Barcelona', note: 'Speakeasy behind a barber shop; you need the password. Name was hard to read in the notes.', mapUrl: 'https://www.google.com/maps/search/?api=1&query=Bobby%27s+Free+Pau+Claris+85+Barcelona' }
+      ] },
+
+    // ---------------- SATURDAY ----------------
+    { id: 'open', code: '12', title: 'Free Play', subtitle: 'Open to suggestions', type: 'beach', district: 'beach', day: 'sat', time: null,
+      status: 'to-organise', notes: 'Nothing planned yet. Pitch ideas in the group chat.',
+      blurb: 'The day is open. Best idea wins.' },
+    { id: 'football', code: '13', title: 'Matchday', subtitle: 'Football', type: 'activity', district: 'campnou', day: 'sat', time: null,
+      status: 'tentative', instructions: 'Metro line L5.',
+      notes: 'Spotify Camp Nou is served by L5 at Collblanc, Badal and Ernest Lluch.',
+      verify: 'Match, tickets and kick-off not confirmed yet. One word under the football note was illegible.',
+      blurb: 'Football on Saturday, heading out on metro line L5.' },
+
+    // ---------------- SUNDAY ----------------
+    { id: 'checkout', code: '14', title: 'Check-out', subtitle: 'Leave base camp', type: 'hotel', district: 'city', day: 'sun', time: '11:00',
+      status: 'planned', notes: 'The flight is at 21:45, so plan somewhere to leave bags for the day.',
+      blurb: 'Out of the rooms by 11:00.' },
+    { id: 'extraction', code: '15', title: 'Extraction', subtitle: 'Barcelona to Gatwick', type: 'return', district: 'airport', day: 'sun', time: '21:45',
+      venue: 'Barcelona–El Prat Airport', status: 'planned',
+      instructions: 'Rodalies R2 Nord (R2N) back to the airport. Flight departs 21:45, lands at Gatwick 23:10 UK time.',
+      alert: 'R2 Nord, NOT R2.', blurb: 'Home with the stories. What happens in Barcelona…' }
   ],
 
-  costs: { currency: 'GBP', extras: [ /* { label: 'Flights', perPerson: 0 } */ ] },
+  costs: { currency: 'EUR', extras: [ { label: 'Sartoria Panatieri booking', perPerson: 10 } ] },
   links: [ /* { label: 'Group chat', url: 'https://…' } */ ],
   documents: [ /* { label: 'Hotel confirmation (PDF)', url: 'docs/hotel.pdf' } */ ],
 
@@ -874,7 +946,7 @@ const TRIP = {
       { dest: 'MARRIAGE', status: 'BOARDING SOON', tone: 'go' },
       { dest: 'BACHELORHOOD', status: 'CANCELLED', tone: 'bad' },
       { dest: 'EARLY NIGHT', status: 'CANCELLED', tone: 'bad' },
-      { dest: 'SENSIBLE CHOICES', status: 'DELAYED', tone: 'warn' },
+      { dest: 'TAKING THE R2', status: 'WRONG TRAIN', tone: 'warn' },
       { dest: 'NEXT WEEKEND', status: 'SEE YOU THERE', tone: 'go' }
     ]
   }
@@ -902,18 +974,19 @@ const portrait=()=>innerHeight>innerWidth*1.05;
 const inFrame=(()=>{try{return window.self!==window.top}catch(e){return true}})();
 function toast(msg,ms=3200){const t=$('#toast');t.textContent=msg;t.classList.add('in');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('in'),ms)}
 
-const STATUS={confirmed:{label:'Confirmed',c:'#5CC9A7'},tentative:{label:'Tentative',c:'#FFB86B'},'to-organise':{label:'To organise',c:'#FF4D4D'}};
+const STATUS={confirmed:{label:'Confirmed',c:'#5CC9A7'},planned:{label:'In the plan',c:'#6FB0E6'},requested:{label:'Requested',c:'#C9A2FF'},tentative:{label:'Tentative',c:'#FFB86B'},'to-organise':{label:'To organise',c:'#FF4D4D'}};
 const statusOf=m=>STATUS[m.status]||STATUS['to-organise'];
 const isSecret=m=>m.surprise&&!S.organiser;
 const mTitle=m=>isSecret(m)?'Classified':m.title;
 const dayOf=m=>TRIP.days.find(d=>d.id===m.day)||null;
 function fmtDate(iso){if(!iso)return null;const d=new Date(iso+'T12:00:00Z');if(isNaN(d))return iso;return d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',timeZone:'UTC'})}
 function zonedToUtc(date,time,tz){const g=new Date(`${date}T${time||'00:00'}:00Z`);if(isNaN(g))return null;try{const f=new Intl.DateTimeFormat('en-GB',{timeZone:tz,hourCycle:'h23',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});const p=Object.fromEntries(f.formatToParts(g).map(x=>[x.type,x.value]));const asUtc=Date.UTC(+p.year,+p.month-1,+p.day,+p.hour%24,+p.minute);return new Date(g.getTime()-(asUtc-g.getTime()))}catch(e){return g}}
+const flDate=o=>o.date?fmtDate(o.date):(o.dayLabel||null);
 function missionWhen(m){const d=dayOf(m),parts=[];if(d)parts.push(d.date?`${d.label} · ${fmtDate(d.date)}`:d.label);parts.push(m.time?`${m.time} Barcelona time`:'Time TBC');return parts.join(' · ')}
 function missionStart(m){const d=dayOf(m);if(!d||!d.date||!m.time)return null;return zonedToUtc(d.date,m.time,TRIP.timezones.destination)}
 function money(n){try{return new Intl.NumberFormat('en-GB',{style:'currency',currency:TRIP.costs.currency||'GBP',maximumFractionDigits:2}).format(n)}catch(e){return String(n)}}
 function mapHref(m){if(m.mapUrl)return m.mapUrl;if(m.address)return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(m.address);return null}
-function tripDates(){const s=TRIP.dates.start,e=TRIP.dates.end;if(!s)return null;return e&&e!==s?`${fmtDate(s)} – ${fmtDate(e)}`:fmtDate(s)}
+function tripDates(){const s=TRIP.dates.start,e=TRIP.dates.end;if(!s)return TRIP.dates.label||null;return e&&e!==s?`${fmtDate(s)} – ${fmtDate(e)}`:fmtDate(s)}
 
 /* =====================================================================
    Audio — synthesised with Web Audio, so there are no files to load.
@@ -1226,7 +1299,7 @@ function buildFlight(){
 /* =====================================================================
    WORLD 3 — Barcelona: coast, Eixample grid, landmarks, mission beacons
    ===================================================================== */
-const DISTRICT={airport:[-560,860],eixample:[-60,-40],sagrada:[100,-170],gracia:[-60,-330],gothic:[118,300],born:[196,236],barceloneta:[214,262],beach:[336,148],olimpic:[420,30],poblenou:[360,-90],port:[150,330],montjuic:[-170,470],city:[10,110]};
+const DISTRICT={airport:[-560,860],eixample:[-60,-40],sagrada:[100,-170],gracia:[-60,-330],gothic:[118,300],born:[196,236],barceloneta:[214,262],beach:[336,148],olimpic:[420,30],poblenou:[360,-90],port:[150,330],montjuic:[-170,470],campnou:[-455,60],city:[10,110]};
 const MOODS_HEX={
   golden:{top:0x2a63a3,hor:0xffc792,bot:0x9c8466,sunCol:0xffd2a0,sunI:1.35,sunDir:[-.85,.22,.32],hemiS:0xb9d2ea,hemiG:0x7a5b3e,hemiI:.75,fog:0xe8c39b,fogN:380,fogF:3300,deep:0x1d4f73,ref:0xf2c79a,land:0xb49d80,win:.12,street:0,cloud:0xffe3c6,sky:.25},
   day:{top:0x2f7cc4,hor:0xd9ecf7,bot:0xa7998a,sunCol:0xfff1d6,sunI:1.5,sunDir:[.25,.85,.45],hemiS:0xcfe5f7,hemiG:0x8a7458,hemiI:.85,fog:0xcfe2ef,fogN:420,fogF:3700,deep:0x145a8a,ref:0x9cc8e6,land:0xbba78a,win:0,street:0,cloud:0xffffff,sky:.35},
@@ -1338,7 +1411,7 @@ function buildCity(){
 
   // mission beacons and per-type effects
   const counts={};
-  TRIP.missions.forEach((m,i)=>{const d=DISTRICT[m.district]||DISTRICT.city;const k=counts[m.district]=(counts[m.district]||0)+1;const x=d[0]+(k-1)*34,z=d[1]-(k-1)*26;
+  TRIP.missions.forEach((m,i)=>{const d=DISTRICT[m.district]||DISTRICT.city;const k=counts[m.district]=(counts[m.district]||0)+1;const ang=(k-1)*2.1,rr=(k>1?52:0)+(k>3?30:0),x=d[0]+Math.cos(ang)*rr,z=d[1]+Math.sin(ang)*rr;
     const c=new THREE.Color(isSecret(m)?'#8E98A7':statusOf(m).c);const g=new THREE.Group();g.position.set(x,0,z);
     const bm=new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:.3,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide});
     const beam=new THREE.Mesh(new THREE.CylinderGeometry(1.5,1.5,150,10,1,true).translate(0,75,0),bm);
@@ -1522,6 +1595,11 @@ function fieldList(m){const sec=isSecret(m),F=[];const add=(k,v)=>{if(has(v))F.p
   add('When',missionWhen(m));add('Duration',m.duration);add('Meeting point',m.meetingPoint);
   if(!sec){add('Venue',m.venue);add('Address',m.address);add('Booking ref',m.bookingRef);if(m.costPerPerson!=null)add('Cost per person',money(m.costPerPerson));add('Organiser',m.organiser)}
   add('Dress code',m.dressCode);add('Bring',m.bring);add('Instructions',m.instructions);if(!sec)add('Notes',m.notes);return F}
+function missionExtras(m){if(isSecret(m))return '';let h='';
+  if(m.alert)h+=`<p class="alert"><b>Heads up</b>${esc(m.alert)}</p>`;
+  if(m.options&&m.options.length)h+=`<div class="opts"><p class="eyebrow">Shortlist</p>${m.options.map(o=>`<div class="opt"><div><strong>${esc(o.name)}</strong>${o.address?`<span>${esc(o.address)}</span>`:''}${o.note?`<em>${esc(o.note)}</em>`:''}</div>${o.mapUrl?`<a class="btn small" href="${esc(o.mapUrl)}" target="_blank" rel="noopener">Map</a>`:''}</div>`).join('')}</div>`;
+  if(m.verify)h+=`<p class="verify"><b>Check before you go</b>${esc(m.verify)}</p>`;return h}
+function transportStrip(isOut){const t=TRIP.transport;if(!t)return '';return `<button type="button" class="train" data-dossier="transport"><span><b>${isOut?'Then: train into the city':'Train to the airport'}</b>${esc(t.line)}</span><i>${esc(t.alert||'')}</i></button>`}
 function missionLinks(m){if(isSecret(m))return '';const out=[];const mh=mapHref(m);if(mh)out.push(`<a class="btn small" href="${esc(mh)}" target="_blank" rel="noopener">Open in Maps</a>`);
   (m.links||[]).forEach(l=>out.push(`<a class="btn small" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`));if(m.qr)out.push(`<a class="btn small" href="${esc(m.qr)}" target="_blank" rel="noopener">Booking document</a>`);
   return out.length?`<div class="row-actions">${out.join('')}</div>`:''}
@@ -1532,7 +1610,7 @@ function renderMissionPanel(m){const p=$('#mpanel'),st=statusOf(m),sec=isSecret(
   ${sec?'<p class="classified">Classified. The organisers are keeping this one quiet. Turn on organiser view in Settings to see it.</p>':''}
   ${!sec&&m.image?`<figure class="mp-media"><img src="${esc(m.image)}" alt="${esc(m.title)}" onerror="this.parentNode.remove()"></figure>`:''}
   ${!sec&&m.blurb?`<p class="mp-blurb">${esc(m.blurb)}</p>`:''}
-  <dl class="kv">${fieldList(m).map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>
+  ${missionExtras(m)}<dl class="kv">${fieldList(m).map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>
   ${!sec&&!m.venue&&!m.address?'<p class="fine">Venue not set yet.</p>':''}
   ${missionLinks(m)}
   <div class="mp-nav"><button class="btn small" type="button" id="mpPrev" ${i<=0?'disabled':''}>‹ Prev</button><button class="btn small" type="button" id="mpMap">Mission map</button><button class="btn small" type="button" id="mpNext" ${i>=list.length-1?'disabled':''}>Next ›</button></div>`;
@@ -1546,15 +1624,15 @@ function renderMissionPanel(m){const p=$('#mpanel'),st=statusOf(m),sec=isSecret(
    ===================================================================== */
 function kvRows(o,isOut){const r=[];const code=a=>a.code||a.airport||null;
   r.push(['From',`${esc(o.from.city)}${o.from.airport?' · '+esc(o.from.airport):''}`]);r.push(['To',`<span class="${isOut?'hi':''}">${esc(o.to.city)}</span>${o.to.airport?' · '+esc(o.to.airport):''}`]);
-  r.push(['Flight',[o.airline,o.flightNumber].filter(Boolean).map(esc).join(' ')||tbc(null)]);r.push(['Date',o.date?esc(fmtDate(o.date)):tbc(null)]);
-  r.push(['Departs',o.departs?`${esc(o.departs)} local`:tbc(null)]);r.push(['Arrives',o.arrives?`${esc(o.arrives)} local`:tbc(null)]);
+  r.push(['Flight',[o.airline,o.flightNumber].filter(Boolean).map(esc).join(' ')||tbc(null)]);r.push(['Day',tbc(flDate(o))]);
+  r.push(['Departs',o.departs?`${esc(o.departs)} ${isOut?'UK':'Barcelona'} time`:tbc(null)]);r.push(['Arrives',o.arrives?`${esc(o.arrives)} ${isOut?'Barcelona':'UK'} time`:tbc(null)]);
   r.push(['Terminal',tbc(o.terminal)]);r.push(['Boarding',tbc(o.boarding)]);r.push(['Gate',tbc(o.gate)]);
   r.push(['Meet',o.meetingPoint?esc(o.meetingPoint)+(o.meetingTime?' · '+esc(o.meetingTime):''):tbc(null)]);
   r.push(['Status',o.status?esc(o.status):'<span class="tbc">Not live · add by hand</span>']);if(o.bookingRef)r.push(['Booking ref',esc(o.bookingRef)]);void code;
   return r.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}
 function flightCard(o,isOut){const fl=[o.airline,o.flightNumber].filter(Boolean).join(' ');
   const tile=(k,v,raw)=>`<div class="tile"><b>${k}</b><span>${has(v)?(raw?v:esc(v)):'<span class="tbc">TBC</span>'}</span></div>`;
-  return `<div class="tiles">${tile('Flight',fl)}${tile('Date',o.date?fmtDate(o.date):null)}${tile('Departs',o.departs?o.departs+' local':null)}${tile('Meet',o.meetingPoint?o.meetingPoint+(o.meetingTime?' · '+o.meetingTime:''):null)}</div>
+  return `<div class="tiles">${tile('Departs',o.departs?o.departs+(isOut?' UK':' BCN'):null)}${tile('Lands',o.arrives?o.arrives+(isOut?' BCN':' UK'):null)}${tile('Day',flDate(o))}${tile('Flight no.',fl)}</div>${transportStrip(isOut)}
   <details class="more"><summary>All flight details</summary><dl class="kv">${kvRows(o,isOut)}</dl></details>`}
 function bindContent(){const g=TRIP.groom.name||'Dom';
   $$('[data-bind="groomUpper"]').forEach(e=>e.textContent=g.toUpperCase());$$('[data-bind="title"]').forEach(e=>e.textContent=TRIP.title);$$('[data-bind="tagline"]').forEach(e=>e.textContent=TRIP.tagline);
@@ -1565,16 +1643,17 @@ function bindContent(){const g=TRIP.groom.name||'Dom';
   // boarding pass
   const o=TRIP.outbound,code=(a,el)=>{el.textContent=a.code||a.city.toUpperCase();el.classList.toggle('word',!a.code)};code(o.from,$('#bpFrom'));code(o.to,$('#bpTo'));$('#bpFromCity').textContent=o.from.airport||o.from.city;$('#bpToCity').textContent=o.to.airport||o.to.city;
   const cell=(k,v)=>`<div><b>${k}</b><span>${has(v)?esc(v):'TBC'}</span></div>`;
-  $('#bpGrid').innerHTML=cell('Passenger','The Squad')+cell('Flight',[o.airline,o.flightNumber].filter(Boolean).join(' ')||null)+cell('Date',o.date?fmtDate(o.date):tripDates())+cell('Boarding',o.boarding)+cell('Gate',o.gate)+cell('Seat',TRIP.copy.passSeat);
-  $('#bpMore').innerHTML=cell('Departs',o.departs)+cell('Arrives',o.arrives)+cell('Terminal',o.terminal)+cell('Meeting point',o.meetingPoint)+cell('Weekend',tripDates())+cell('Mission','Celebrate '+g);
-  $('#bpCrew').innerHTML=TRIP.squad.map(p=>`<li>${esc(p.name)}${p.isGroom?' · groom':''}</li>`).join('')+(TRIP.squad.length<2?'<li style="color:#6a7079">Crew list pending</li>':'');
+  $('#bpGrid').innerHTML=cell('Passenger','The Squad')+cell('Flight',[o.airline,o.flightNumber].filter(Boolean).join(' ')||null)+cell('Day',flDate(o))+cell('Boarding',o.boarding)+cell('Gate',o.gate)+cell('Seat',TRIP.copy.passSeat);
+  $('#bpMore').innerHTML=cell('Departs',o.departs?o.departs+' UK':null)+cell('Arrives',o.arrives?o.arrives+' BCN':null)+cell('Terminal',o.terminal)+cell('Then','R2 Nord train')+cell('Weekend',tripDates())+cell('Mission','Celebrate '+g);
+  $('#bpCrew').innerHTML=TRIP.squad.map(p=>`<li>${esc(p.name)}${p.isGroom?' · groom':''}</li>`).join('')+(TRIP.squad.length<(TRIP.squadSize||2)?`<li style="color:#6a7079">+ ${(TRIP.squadSize||2)-TRIP.squad.length} more, names TBC</li>`:'');
   // flight HUD up next
+  $('#roRunway').textContent='Runway · '+(o.from.airport||o.from.city);$('#rtFrom').textContent=o.from.code||'LON';$('#rtFromCity').textContent=(o.from.airport||o.from.city).replace('London ','');
   $('#upnext').innerHTML=TRIP.missions.slice(0,4).map(m=>`<li><b>${esc(m.code)}</b>${esc(mTitle(m))}</li>`).join('');
   renderRoster();renderStrip()}
 function renderRoster(){const r=$('#roster');const ini=n=>n.split(/\s+/).map(s=>s[0]).join('').slice(0,2).toUpperCase();
   r.innerHTML=TRIP.squad.map(p=>`<article class="agent${p.isGroom?' groom':''}"><div class="ava">${p.photo?`<img src="${esc(p.photo)}" alt="${esc(p.name)}" onerror="this.replaceWith(document.createTextNode('${esc(ini(p.name))}'))">`:esc(ini(p.name))}</div>
     <div><div class="rl">${esc(p.role||'Squad member')}</div><div class="nm">${esc(p.name)}</div>${p.nickname?`<div class="nk">“${esc(p.nickname)}”</div>`:''}</div>${p.responsibility?`<div class="rs">${esc(p.responsibility)}</div>`:''}</article>`).join('')+
-    (TRIP.squad.length<2?'<article class="agent pending">Recruits pending. Organisers add the crew to the squad list in the trip config.</article>':'')}
+    (TRIP.squad.length<(TRIP.squadSize||2)?`<article class="agent pending">Squad of ${TRIP.squadSize||'?'}. ${(TRIP.squadSize||2)-TRIP.squad.length} more names to add in the trip config.</article>`:'')}
 
 /* boarding pass interactions */
 function setPass(open){const b=$('#bp');b.classList.toggle('open',open);b.setAttribute('aria-expanded',open);$('#bpToggle').textContent=open?'Fold pass':'Unfold pass';b.setAttribute('aria-label',open?'Souvenir boarding pass, unfolded. Press to fold.':'Souvenir boarding pass. Press to unfold.')}
@@ -1605,7 +1684,7 @@ function openDialog(el){closeDialogs(true);lastFocus=document.activeElement;$('#
 function closeDialogs(keepFocus){let any=false;['sheetCh','sheetSet','dossier','modal'].forEach(id=>{const e=$('#'+id);if(!e.hidden){e.hidden=true;any=true}});$('#backdrop').hidden=true;if(any&&!keepFocus&&lastFocus)lastFocus.focus({preventScroll:true});syncTabs()}
 const anyDialog=()=>['sheetCh','sheetSet','dossier','modal'].some(id=>!$('#'+id).hidden);
 
-const TABS=[{id:'itinerary',label:'Itinerary'},{id:'flights',label:'Flights'},{id:'stay',label:'Stay'},{id:'costs',label:'Costs'},{id:'squad',label:'Squad'},{id:'links',label:'Links & docs'},{id:'sos',label:'Emergency',sos:true}];
+const TABS=[{id:'itinerary',label:'Itinerary'},{id:'flights',label:'Flights'},{id:'transport',label:'Train'},{id:'stay',label:'Stay'},{id:'costs',label:'Costs'},{id:'squad',label:'Squad'},{id:'links',label:'Links & docs'},{id:'sos',label:'Emergency',sos:true}];
 function openDossier(tab='itinerary'){openDialog($('#dossier'));showTab(tab)}
 let dosTab='itinerary';
 function showTab(id){dosTab=id;$('#tabs').innerHTML=TABS.map(t=>`<button type="button" role="tab" id="tab-${t.id}" aria-selected="${t.id===id}" class="${t.sos?'sos':''}" data-t="${t.id}">${t.label}</button>`).join('');
@@ -1615,12 +1694,18 @@ function showTab(id){dosTab=id;$('#tabs').innerHTML=TABS.map(t=>`<button type="b
   $$('[data-copy]',body).forEach(b=>b.addEventListener('click',()=>copyText(b.dataset.copy)));
   const cb=$('#dosCopy',body);if(cb)cb.addEventListener('click',copySummary);
   const t=$('#tab-'+id);if(t){t.focus({preventScroll:true});t.scrollIntoView({inline:'center',block:'nearest'})}syncTabs()}
+function statusLegend(){const used=[...new Set(TRIP.missions.map(m=>m.status))];return `<div class="legend">${Object.entries(STATUS).filter(([k])=>used.includes(k)).map(([k,v])=>`<span><i class="dot" style="--c:${v.c}"></i>${v.label}</span>`).join('')}</div>`}
 const TABVIEW={
-  itinerary(){return nextCardHTML()+TRIP.days.map(d=>{const ms=TRIP.missions.filter(m=>m.day===d.id);if(!ms.length)return '';
-    return `<section class="day"><h3 class="day-h">${esc(d.label)} <small>${d.date?esc(fmtDate(d.date)):'Date TBC'}</small></h3>${ms.map(m=>{const st=statusOf(m),f=fieldList(m);
-      return `<details class="it"><summary><span class="n">${esc(m.code)}</span><span><span class="tt">${esc(mTitle(m))}</span><span class="when">${esc(m.time||'Time TBC')}${!isSecret(m)&&m.venue?' · '+esc(m.venue):''}${m.meetingPoint?' · Meet: '+esc(m.meetingPoint):''}</span></span><span class="status" style="--c:${st.c}">${st.label}</span></summary>
-      <div class="it-body">${isSecret(m)?'<p class="classified">Classified until the day.</p>':m.blurb?`<p class="mp-blurb">${esc(m.blurb)}</p>`:''}<dl class="kv">${f.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>${missionLinks(m)}<div class="row-actions"><button class="btn small" type="button" data-open-m="${esc(m.id)}">Show in the city</button></div></div></details>`}).join('')}</section>`}).join('')||'<p class="empty">No missions yet.</p>'},
+  itinerary(){return nextCardHTML()+statusLegend()+TRIP.days.map(d=>{const ms=TRIP.missions.filter(m=>m.day===d.id);if(!ms.length)return '';
+    return `<section class="day"><h3 class="day-h">${esc(d.label)} <small>${d.date?esc(fmtDate(d.date)):esc(d.subtitle||'Date TBC')}</small></h3>${ms.map(m=>{const st=statusOf(m),f=fieldList(m);
+      return `<details class="it"><summary><span class="n">${esc(m.code)}</span><span><span class="tt">${esc(mTitle(m))}</span><span class="when">${esc(m.time||'Time TBC')}${!isSecret(m)&&m.venue?' · '+esc(m.venue):''}${m.meetingPoint?' · Meet: '+esc(m.meetingPoint):''}${m.alert&&!isSecret(m)?` · <span class="hi">${esc(m.alert)}</span>`:''}</span></span><span class="status" style="--c:${st.c}">${st.label}</span></summary>
+      <div class="it-body">${isSecret(m)?'<p class="classified">Classified until the day.</p>':m.blurb?`<p class="mp-blurb">${esc(m.blurb)}</p>`:''}${missionExtras(m)}<dl class="kv">${f.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>${missionLinks(m)}<div class="row-actions"><button class="btn small" type="button" data-open-m="${esc(m.id)}">Show in the city</button></div></div></details>`}).join('')}</section>`}).join('')||'<p class="empty">No missions yet.</p>'},
   flights(){return `<div class="grid2"><div class="card"><h3>Outbound</h3><dl class="kv">${kvRows(TRIP.outbound,true)}</dl></div><div class="card"><h3>Return</h3><dl class="kv">${kvRows(TRIP.inbound,false)}</dl></div></div><p class="fine">Times are local: London for departures from London, Barcelona for departures from Barcelona. Status is never fetched live here; organisers update it by hand.</p>`},
+  transport(){const t=TRIP.transport;if(!t)return '<p class="empty">No transport added yet.</p>';const o=TRIP.outbound,i=TRIP.inbound;
+    const leg=(h,l,extra)=>`<div class="card"><h3>${h}</h3><dl class="kv">${[['Line',t.line],['From',l.from],['Direction',l.direction],['Get off at',l.stop]].map(([k,v])=>`<dt>${k}</dt><dd>${tbc(v)}</dd>`).join('')}</dl>${extra}</div>`;
+    return `<p class="alert big"><b>Remember</b>${esc(t.alert)}</p><div class="grid2">${leg('Airport → city',t.outbound,`<p class="fine">After landing at ${esc(o.arrives||'TBC')} on ${esc(o.dayLabel||'arrival day')}.</p>`)}${leg('City → airport',t.inbound,`<p class="fine">Flight leaves at ${esc(i.departs||'TBC')} on ${esc(i.dayLabel||'the last day')}. Leave plenty of time.</p>`)}</div>
+    <div class="card" style="margin-top:14px"><h3>Good to know</h3><ul class="facts">${(t.facts||[]).map(f=>`<li>${esc(f)}</li>`).join('')}</ul><div class="row-actions"><a class="btn small" href="https://rodalies.gencat.cat/en/inici/" target="_blank" rel="noopener">Rodalies timetables</a></div></div>
+    ${t.verify?`<p class="verify"><b>Check before you go</b>${esc(t.verify)}</p>`:''}`},
   stay(){const a=TRIP.accommodation;const rows=[['Name',a.name],['Address',a.address],['Check-in',a.checkIn],['Check-out',a.checkOut],['Booking ref',a.bookingRef],['Notes',a.notes]].filter(([,v])=>has(v));
     const mh=a.mapUrl||(a.address?'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(a.address):null);
     return `<div class="card"><h3>Base camp</h3>${rows.length?`<dl class="kv">${rows.map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>`:'<p class="empty">Accommodation not added yet.</p>'}${mh?`<div class="row-actions"><a class="btn small" href="${esc(mh)}" target="_blank" rel="noopener">Open in Maps</a></div>`:''}</div>`},
@@ -1632,14 +1717,16 @@ const TABVIEW={
   links(){const L=[...(TRIP.links||[]),...(TRIP.documents||[])];return `<div class="card"><h3>Links and documents</h3>${L.length?`<ul class="links">${L.map(l=>`<li><a class="btn small" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a></li>`).join('')}</ul>`:'<p class="empty">Nothing added yet. Booking confirmations, the group chat link and tickets go here.</p>'}</div>`},
   sos(){const e=TRIP.emergency,a=TRIP.accommodation;return `<div class="grid2"><div class="card sos-card"><h3>Emergency in Spain</h3><div class="big-num">${esc(e.localNumber||'112')}</div><p class="fine">Police, ambulance and fire. Free from any phone.</p><div class="row-actions copyrow"><code>${esc(e.localNumber||'112')}</code><button class="btn small" type="button" data-copy="${esc(e.localNumber||'112')}">Copy number</button></div></div>
     <div class="card"><h3>Squad contacts</h3>${(e.contacts||[]).length?`<dl class="kv">${e.contacts.map(c=>`<dt>${esc(c.role||'Contact')}</dt><dd>${esc(c.name)}<br><span class="copyrow"><code>${esc(c.phone||'')}</code>${c.phone?` <button class="btn small" type="button" data-copy="${esc(c.phone)}">Copy</button>`:''}</span></dd>`).join('')}</dl>`:'<p class="empty">Organisers: add names and numbers in the emergency section of the trip config.</p>'}</div>
+    <div class="card"><h3>Getting to the airport</h3><p>${esc(TRIP.transport?TRIP.transport.line:'')}. <b class="hi">${esc(TRIP.transport?TRIP.transport.alert:'')}</b></p></div>
     <div class="card"><h3>Where we're staying</h3>${a.address?`<p>${esc(a.name||'')}<br>${esc(a.address)}</p><button class="btn small" type="button" data-copy="${esc(a.address)}">Copy address</button>`:'<p class="empty">Address not added yet.</p>'}${e.notes?`<p class="fine">${esc(e.notes)}</p>`:''}</div></div>`}
 };
 function copyText(t){const done=()=>toast('Copied.');try{navigator.clipboard.writeText(t).then(done,()=>showText(t))}catch(e){showText(t)}}
 function summaryText(){const o=TRIP.outbound,i=TRIP.inbound,g=TRIP.groom.name;const L=[];L.push(`${g.toUpperCase()}: ${TRIP.title.toUpperCase()} — Barcelona`);L.push(`Dates: ${tripDates()||'TBC'}`);
-  L.push(`Outbound: ${[o.airline,o.flightNumber].filter(Boolean).join(' ')||'flight TBC'} · ${o.date?fmtDate(o.date):'date TBC'} · departs ${o.departs||'TBC'}${o.meetingPoint?' · meet '+o.meetingPoint+(o.meetingTime?' '+o.meetingTime:''):''}`);
-  L.push(`Return: ${[i.airline,i.flightNumber].filter(Boolean).join(' ')||'flight TBC'} · ${i.date?fmtDate(i.date):'date TBC'} · departs ${i.departs||'TBC'}`);
+  L.push(`Outbound: ${flDate(o)||'TBC'} · ${o.from.code} ${o.departs||'TBC'} → ${o.to.code} ${o.arrives||'TBC'}${o.flightNumber?' · '+o.flightNumber:''}`);
+  L.push(`Return: ${flDate(i)||'TBC'} · ${i.from.code} ${i.departs||'TBC'} → ${i.to.code} ${i.arrives||'TBC'}${i.flightNumber?' · '+i.flightNumber:''}`);
+  if(TRIP.transport)L.push(`Airport train: ${TRIP.transport.line}. ${TRIP.transport.alert}`);
   if(TRIP.accommodation.name||TRIP.accommodation.address)L.push(`Stay: ${[TRIP.accommodation.name,TRIP.accommodation.address].filter(Boolean).join(', ')}`);
-  L.push('');L.push('Missions:');TRIP.missions.forEach(m=>L.push(`${m.code} ${mTitle(m)} — ${missionWhen(m)} — ${statusOf(m).label}`));
+  let dd=null;L.push('');TRIP.missions.forEach(m=>{const d=dayOf(m);if(d&&d!==dd){dd=d;L.push('');L.push(d.label.toUpperCase())}L.push(`• ${m.time?m.time+' ':''}${mTitle(m)}${!isSecret(m)&&m.venue&&m.venue!==m.title?' — '+m.venue:''}${m.alert&&!isSecret(m)?' ('+m.alert+')':''}`)});
   L.push('');L.push(`Squad: ${TRIP.squad.map(s=>s.name).join(', ')}`);L.push(`Emergency in Spain: ${TRIP.emergency.localNumber||'112'}`);if(TRIP.isPlaceholder)L.push('(Draft plan — nothing booked yet)');return L.join('\n')}
 function copySummary(){const t=summaryText();try{navigator.clipboard.writeText(t).then(()=>toast('Trip summary copied. Paste it into the group chat.'),()=>showText(t))}catch(e){showText(t)}}
 function showText(t){const md=$('#modal');$('#modalFig').hidden=true;const ta=$('#modalText');ta.hidden=false;ta.value=t;$('#modalDl').hidden=true;openDialog(md);ta.focus();ta.select()}
@@ -1726,7 +1813,7 @@ function bindInput(){
   $('#backdrop').onclick=()=>closeDialogs();$$('[data-close]').forEach(b=>b.onclick=()=>closeDialogs());$('#modalClose').onclick=()=>closeDialogs();
   $$('[data-go]').forEach(b=>b.addEventListener('click',()=>{Audio.blip(1200);goTo(idx(b.dataset.go))}));
   $$('[data-skip]').forEach(b=>b.addEventListener('click',()=>{const id=CH[cur].id;if(id==='arrival'){killSeq();const a=$('#arrive');a.classList.add('show');if(GL){cam.p.set(73,4.6,150);cam.t.set(56,78,-112)}return}step(1)}));
-  $$('[data-dossier]').forEach(b=>b.addEventListener('click',()=>openDossier(b.dataset.dossier)));
+  document.addEventListener('click',e=>{const b=e.target.closest('[data-dossier]');if(b)openDossier(b.dataset.dossier)});
   $('#btnEnter').onclick=()=>{const b=$('#btnEnter');b.classList.add('fire');if(S.sound){Audio.set(true);Audio.chime()}Audio.blip(1500,.08,.06);setTimeout(()=>{b.classList.remove('fire');goTo(1)},reduced()?80:520)};
   $('#btnSkipIntro').onclick=()=>openDossier('itinerary');
   const bp=$('#bp');bp.addEventListener('click',()=>{setPass(!bp.classList.contains('open'));Audio.blip(900)});bp.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();bp.click()}});
